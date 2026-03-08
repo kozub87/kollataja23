@@ -38,6 +38,8 @@
   ],
   "exclude": [
     "node_modules",
-    "SKILLS"
+    "SKILLS",
+    "Skilsy 26",
+    ".agents"
   ]
 }
