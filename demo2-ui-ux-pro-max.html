@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 2 - UI/UX Pro Max Skill</title>
+    <!-- Bezpieczne, piękne, bardzo czytelne fonty UI (Inter) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            /* Slate 900 */
+            color: #f8fafc;
+            /* Slate 50 */
+            /* Subtelne, zorganizowane rozświetlenie dopracowane pod kątem estetyki */
+            background-image:
+                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.3) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0.3) 0, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Perfekcyjnie docięty Glassmorphism */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-gradient:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+
+<body class="p-6">
+    <!-- Układ Bento Grid -->
+    <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Główna karta Bento -->
+        <div class="glass-panel col-span-1 md:col-span-2 rounded-3xl p-10 flex flex-col justify-between h-[450px]">
+            <div>
+                <span
+                    class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-blue-500/10 text-blue-400 text-sm font-medium mb-6 border border-blue-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                    UX/UI Patterns v2.0
+                </span>
+                <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-5 leading-tight">
+                    Perfekcyjny Design <br><span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400">Pro Max
+                        Series</span>
+                </h1>
+                <p class="text-slate-400 text-lg mb-8 max-w-md leading-relaxed">
+                    Każdy piksel, każdy margines (padding) jest dokładnie przemyślany. Wykorzystuje sprawdzony w branży
+                    styl "Bento" i "Szkło" dla aplikacji premium. Układ bezpieczny i zgodny z WCAG.
+                </p>
+            </div>
+            <div>
+                <a href="#"
+                    class="btn-gradient inline-flex items-center justify-center px-7 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/20">
+                    Rozpocznij Proces
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Karty poboczne -->
+        <div class="flex flex-col gap-6 h-[450px]">
+            <div
+                class="glass-panel flex-1 rounded-3xl p-6 flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-slate-800/40">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 text-violet-400 flex items-center justify-center mb-4 border border-violet-500/20 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-xl mb-1 text-slate-200">Wydajność</h3>
+                <p class="text-slate-400 text-sm">Zoptymalizowane krawędzie</p>
+            </div>
+
+            <div
+                class="glass-panel flex-1 rounded-3xl p-6 flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-slate-800/40">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500/20 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-xl mb-1 text-slate-200">Dostępność</h3>
+                <p class="text-slate-400 text-sm">Standardy WCAG 2.1</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

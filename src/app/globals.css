@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  /* Sharp corners — brutalist */
+  --radius-xl: 0rem;
+  --radius-lg: 0rem;
+  --radius-md: 0rem;
+  --radius-sm: 0rem;
+
+  /* ── Weight scale przesunięty o poziom w dół ──────────────────────
+     font-normal    → 300  (lekki, elegancki)
+     font-medium    → 400  (regular)
+     font-semibold  → 500  (medium — zastępuje grube 600)
+     font-bold      → 600  (semibold)
+     font-extrabold → 700  (bold — dla akcentów)
+  ─────────────────────────────────────────────────────────────────── */
+  --font-weight-thin: 200;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 300;
+  --font-weight-medium: 400;
+  --font-weight-semibold: 500;
+  --font-weight-bold: 600;
+  --font-weight-extrabold: 700;
+  --font-weight-black: 800;
+}
+
+@layer base {
+  :root {
+    --background: #F3F3F3;
+    /* Chłodny, surowy jasnoszary/beż z Dreamhouse */
+    --foreground: #111111;
+    /* Brutalistyczna ostra czerń */
+    --primary: #111111;
+    --primary-foreground: #F3F3F3;
+  }
+
+  .dark {
+    --background: #111111;
+    /* Bardzo ciemny grafit */
+    --foreground: #F2F0EB;
+    /* Złamana biel do tekstu */
+    --primary: #F2F0EB;
+    --primary-foreground: #111111;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-500 selection:bg-black/10;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans tracking-tight;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+
+  /* Paragrafy = normalna wielkość liter, nawet jeśli mają klasę uppercase */
+  p {
+    text-transform: none !important;
+  }
+
+  .glass-pill {
+    @apply bg-white/10 backdrop-blur-md border border-white/15 transition-colors duration-200 hover:bg-white/20;
+  }
+
+  .glass-card {
+    @apply bg-[#141414]/35 backdrop-blur-xl border border-white/15 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/30;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .mask-image-linear-gradient {
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+}

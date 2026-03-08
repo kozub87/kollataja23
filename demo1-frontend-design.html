@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 1 - Frontend Design Skill</title>
+    <!-- Zastąpienie standardowych fontów charakterystyczną typografią -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #09090b;
+            --accent: #D6FF00; /* Agresywny, jaskrawy żółto-zielony (Acid) */
+            --text: #F3F4F6;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Mono', monospace; /* Monospace dla surowego klimatu */
+            overflow-x: hidden;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            padding: 5vw;
+            min-height: 100vh;
+            align-items: center;
+        }
+        /* Asymetryczny, gigantyczny nagłówek łamiący siatkę */
+        h1 {
+            grid-column: 1 / 11;
+            font-family: 'Syne', sans-serif;
+            font-size: 10vw;
+            font-weight: 800;
+            line-height: 0.85;
+            text-transform: uppercase;
+            margin: 0;
+            mix-blend-mode: difference;
+            z-index: 10;
+        }
+        .highlight {
+            color: var(--accent);
+            display: block;
+            margin-left: 20%;
+        }
+        /* Generyczne cienie i tła wyparte przez sztukę generatywną/rozmycie w tle */
+        .abstract-shape {
+            grid-column: 8 / 13;
+            grid-row: 1;
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #ff0055, #6600ff);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 8s ease-in-out infinite alternate;
+            filter: blur(50px);
+            opacity: 0.6;
+            z-index: 1;
+            /* Ten blob nadaje kompozycji organiczny, kreatywny chaos */
+        }
+        @keyframes morph {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: scale(1);}
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1.1);}
+        }
+        .info {
+            grid-column: 2 / 6;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+            margin-top: 40px;
+            z-index: 10;
+        }
+        /* Unikalny guzik z animacją maski (nie domyślne hover Tailwind'a) */
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--accent);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        .btn:hover {
+            color: var(--bg);
+        }
+        .btn:hover::before {
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Digital<span class="highlight">Rebel</span></h1>
+        <div class="abstract-shape"></div>
+        <div class="info">
+            <p>Odrzucenie symetrii. Unikalna paleta. Ekstremalny kontrast między chłodnym tekstem a agresywnym gradientem z tyłu.<br><strong>To podejście skilla "frontend-design".</strong></p>
+            <a href="#" class="btn">Odkryj Nowe</a>
+        </div>
+    </div>
+</body>
+</html>

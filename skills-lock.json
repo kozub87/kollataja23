@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "weather": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "computedHash": "8c985a61c72b60455743d8d642d6dc665dc0467221c50ef80accd1542dfe51bc"
+    }
+  }
+}
