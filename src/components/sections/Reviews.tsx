@@ -47,7 +47,7 @@ export function Reviews() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="text-5xl md:text-7xl lg:text-[90px] font-semibold tracking-tighter uppercase leading-[0.95] text-foreground"
+                        className="text-5xl md:text-7xl lg:text-[90px] font-semibold tracking-tighter uppercase leading-[1.05] text-foreground"
                     >
                         GOŚCIE<br />O NAS
                     </motion.h2>

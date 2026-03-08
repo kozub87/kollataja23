@@ -47,7 +47,7 @@ export function AboutPage() {
                     <motion.h1
                         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.65, ease: "easeOut" }}
-                        className="text-5xl md:text-7xl lg:text-[90px] font-semibold tracking-tighter uppercase leading-[0.95] text-foreground"
+                        className="text-5xl md:text-7xl lg:text-[90px] font-semibold tracking-tighter uppercase leading-[1.05] text-foreground"
                     >
                         KAMIENICA<br />Z HISTORIĄ.
                     </motion.h1>

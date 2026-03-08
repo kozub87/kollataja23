@@ -42,7 +42,7 @@ export function Hero() {
                     <motion.h1
                         initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.75, delay: 0.3, ease: "easeOut" }}
-                        className="text-foreground text-[12vw] md:text-8xl lg:text-[120px] font-semibold tracking-tighter uppercase leading-[0.95]"
+                        className="text-foreground text-[12vw] md:text-8xl lg:text-[120px] font-semibold tracking-tighter uppercase leading-[1.05]"
                     >
                         TWORZYMY, <br />TWÓJ SPOKÓJ.
                     </motion.h1>

@@ -25,7 +25,7 @@ export function Footer() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.65, ease: "easeOut" }}
-                    className="text-[13vw] md:text-[11vw] lg:text-[9.5vw] font-semibold tracking-tighter uppercase leading-[0.95] text-background"
+                    className="text-[13vw] md:text-[11vw] lg:text-[9.5vw] font-semibold tracking-tighter uppercase leading-[1.05] text-background"
                 >
                     ZAREZERWUJ<br />SWÓJ<br />POBYT.
                 </motion.h2>

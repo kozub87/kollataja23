@@ -27,7 +27,7 @@ export function Location() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.6 }}
-                        className="text-foreground text-5xl md:text-7xl lg:text-[90px] font-semibold tracking-tighter uppercase leading-[0.95]"
+                        className="text-foreground text-5xl md:text-7xl lg:text-[90px] font-semibold tracking-tighter uppercase leading-[1.05]"
                     >
                         SERCE<br />WROCŁAWIA
                     </motion.h2>
