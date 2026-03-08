@@ -64,17 +64,22 @@ export function MobileMenu({ activePath }: MenuProps) {
 
     return (
         <>
-            {/* ── Hamburger — staje się invisible gdy open ── */}
-            <button
-                onClick={() => setOpen(true)}
-                aria-label="Otwórz menu"
-                className={`flex flex-col justify-center gap-[6px] w-9 h-9 py-1 shrink-0 transition-opacity duration-150
-                    ${open ? "invisible opacity-0 pointer-events-none" : "visible opacity-100"}`}
-            >
-                <span className="block h-px w-full bg-foreground" />
-                <span className="block h-px w-full bg-foreground" />
-                <span className="block h-px w-full bg-foreground" />
-            </button>
+            <div className="flex items-center gap-4 md:gap-6">
+                <div className={`transition-opacity duration-150 ${open ? "invisible opacity-0 pointer-events-none" : "visible opacity-100"}`}>
+                    <ThemeToggle />
+                </div>
+
+                <button
+                    onClick={() => setOpen(true)}
+                    aria-label="Otwórz menu"
+                    className={`flex flex-col justify-center gap-[6px] w-9 h-9 py-1 shrink-0 transition-opacity duration-150
+                            ${open ? "invisible opacity-0 pointer-events-none" : "visible opacity-100"}`}
+                >
+                    <span className="block h-px w-full bg-foreground" />
+                    <span className="block h-px w-full bg-foreground" />
+                    <span className="block h-px w-full bg-foreground" />
+                </button>
+            </div>
 
             {/* ── Full-screen overlay — renderowany przez Portal (omija problemy z z-index i filter) ── */}
             {mounted && createPortal(
@@ -96,16 +101,19 @@ export function MobileMenu({ activePath }: MenuProps) {
                                 >
                                     KOŁŁĄTAJA 23<sup className="text-[10px] ml-0.5 mt-0.5 font-bold">®</sup>
                                 </Link>
-                                <button
-                                    onClick={closeMenu}
-                                    aria-label="Zamknij menu"
-                                    className="flex items-center justify-center w-9 h-9 shrink-0 hover:opacity-50 transition-opacity"
-                                >
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <line x1="1" y1="1" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                        <line x1="17" y1="1" x2="1" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                    </svg>
-                                </button>
+                                <div className="flex items-center gap-4 md:gap-6">
+                                    <ThemeToggle />
+                                    <button
+                                        onClick={closeMenu}
+                                        aria-label="Zamknij menu"
+                                        className="flex items-center justify-center w-9 h-9 shrink-0 hover:opacity-50 transition-opacity"
+                                    >
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="1" y1="1" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                            <line x1="17" y1="1" x2="1" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
 
                             {/* ── Body: mobile = 1 kolumna, desktop = 2 kolumny ── */}
@@ -191,7 +199,6 @@ export function MobileMenu({ activePath }: MenuProps) {
                                         <span className="text-[9px] font-semibold tracking-widest uppercase text-foreground/25">
                                             © 2026 Kołłątaja 23
                                         </span>
-                                        <ThemeToggle />
                                     </div>
                                 </motion.aside>
                             </div>
@@ -226,7 +233,6 @@ export function MobileMenu({ activePath }: MenuProps) {
                                             kontakt@kollataja23.pl
                                         </a>
                                     </div>
-                                    <ThemeToggle />
                                 </div>
                             </motion.div>
                         </motion.div>
