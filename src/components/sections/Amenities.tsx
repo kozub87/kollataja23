@@ -57,7 +57,7 @@ export function Amenities() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tighter uppercase leading-[0.9] text-foreground"
+                            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tighter uppercase leading-[0.95] text-foreground"
                         >
                             WSZYSTKO<br />CZEGO<br />POTRZEBUJESZ
                         </motion.h2>

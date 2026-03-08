@@ -70,7 +70,7 @@ export function GalleryPage() {
                     <motion.h1
                         initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-5xl md:text-7xl font-semibold tracking-tighter uppercase leading-[0.88] text-foreground"
+                        className="text-5xl md:text-7xl font-semibold tracking-tighter uppercase leading-[0.95] text-foreground"
                     >
                         WSZYSTKIE<br />PRZESTRZENIE.
                     </motion.h1>

@@ -55,7 +55,7 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                         <motion.h1
                             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="text-4xl md:text-7xl lg:text-8xl font-semibold tracking-tighter uppercase leading-[0.9] text-foreground"
+                            className="text-4xl md:text-7xl lg:text-8xl font-semibold tracking-tighter uppercase leading-[0.95] text-foreground"
                         >
                             {apt.title}
                         </motion.h1>
