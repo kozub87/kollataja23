@@ -20,6 +20,7 @@ export default function Home() {
           <WelcomeSection />
           <SectionSeparator />
           <GallerySection />
+          <SectionSeparator />
           <Collection />
           <SectionSeparator />
           <Location />

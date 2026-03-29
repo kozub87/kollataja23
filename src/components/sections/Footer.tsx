@@ -4,27 +4,27 @@ import { RollingLink } from "@/components/ui/RollingLink"
 
 export function Footer() {
     return (
-        <footer className="relative w-full bg-[#f9f6f3] text-foreground flex flex-col items-center pt-24 pb-8 overflow-visible">
+        <footer className="relative w-full bg-[#f9f6f3] text-foreground flex flex-col items-center pt-0 pb-12 overflow-visible">
             
+            {/* ── 1. Top Separator with LARGER Logo Diamond (No Shadow) ── */}
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#D6DDDF] to-transparent relative flex items-center justify-center overflow-visible mb-32">
+                <div className="w-24 h-24 border border-[#D6DDDF] bg-[#f9f6f3] rotate-45 z-10 flex items-center justify-center p-3">
+                    <img 
+                        src="/Loga/kollataja_logo.svg" 
+                        alt="Kołłątaja 23 Logo" 
+                        className="-rotate-45 w-full h-full object-contain"
+                        style={{ mixBlendMode: 'multiply' }}
+                    />
+                </div>
+            </div>
+
             {/* Blinds Shadow Overlay */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.05] bg-[url('/shadow-blinds.png')] bg-cover bg-center mix-blend-multiply z-0" />
 
             {/* Content Container */}
             <div className="relative z-10 w-full max-w-[1440px] px-6 md:px-12 flex flex-col items-center">
                 
-                {/* ── Main Footer Title (Now Logo) ── */}
-                <div className="text-center mb-20 flex flex-col items-center">
-                    <img 
-                        src="/Loga/kollataja_logo.svg" 
-                        alt="Kołłątaja 23 Logo" 
-                        className="h-10 md:h-12 w-auto mb-4"
-                    />
-                    <p className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">
-                        Boutique Apartments
-                    </p>
-                </div>
-
-                {/* ── Navigation Grid ── */}
+                {/* ── Navigation Grid (Increased top spacing from logo) ── */}
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-24 text-[#1f3a40]">
                     
                     {/* Col 1 */}

@@ -2,14 +2,11 @@
 
 import * as React from "react"
 import { motion } from "framer-motion"
-import { Cloud, Droplets, Sun, Wind, CloudRain, Snowflake } from "lucide-react"
+import { Cloud, Sun, CloudRain, Snowflake, Wind } from "lucide-react"
 
-// Types matching wttr.in JSON structure
 interface WeatherData {
     current_condition: Array<{
         temp_C: string
-        FeelsLikeC: string
-        humidity: string
         weatherDesc: Array<{ value: string }>
         weatherCode: string
         windspeedKmph: string
@@ -19,106 +16,88 @@ interface WeatherData {
 export function WeatherWidget() {
     const [weather, setWeather] = React.useState<WeatherData | null>(null)
     const [loading, setLoading] = React.useState(true)
-    const [error, setError] = React.useState(false)
 
     React.useEffect(() => {
         async function fetchWeather() {
             try {
-                setLoading(true)
-                // Pobieramy pogodę dla Wrocławia w formacie JSON
                 const response = await fetch("https://wttr.in/Wroclaw?format=j1")
-
                 if (!response.ok) throw new Error("Weather fetch failed")
-
                 const data = await response.json()
                 setWeather(data)
-                setError(false)
             } catch (err) {
-                console.error("Błąd podczas pobierania pogody:", err)
-                setError(true)
+                console.error("Błąd pogody:", err)
             } finally {
                 setLoading(false)
             }
         }
-
         fetchWeather()
-        // Odświeżaj co 30 minut
         const interval = setInterval(fetchWeather, 30 * 60 * 1000)
         return () => clearInterval(interval)
     }, [])
 
-    if (loading) {
+    if (loading || !weather?.current_condition?.[0]) {
         return (
-            <div className="flex items-center gap-4 bg-transparent border-t border-foreground/15 px-6 py-4 rounded-none w-full animate-pulse">
-                <div className="w-6 h-6 bg-foreground/10" />
-                <div className="h-4 w-24 bg-foreground/10" />
-            </div>
-        )
-    }
-
-    if (error || !weather || !weather.current_condition || !weather.current_condition[0]) {
-        // Fallback
-        return (
-            <div className="flex items-center gap-3 bg-transparent border-t border-foreground/15 px-6 py-4 rounded-none w-full">
-                <Sun className="w-4 h-4 text-foreground" />
-                <span className="text-xs text-foreground/70 uppercase tracking-widest font-semibold">Wrocław</span>
+            <div className="flex items-center gap-4 px-6 py-4 animate-pulse">
+                <div className="w-5 h-5 rounded-full bg-white/10" />
+                <div className="h-3 w-20 bg-white/10" />
             </div>
         )
     }
 
     const current = weather.current_condition[0]
-    if (!current || !current.weatherDesc || !current.weatherDesc[0]) {
-        return (
-            <div className="flex items-center gap-3 bg-transparent border-t border-foreground/15 px-6 py-4 rounded-none w-full">
-                <Sun className="w-4 h-4 text-foreground" />
-                <span className="text-xs text-foreground/70 uppercase tracking-widest font-semibold">Wrocław</span>
-            </div>
-        )
-    }
-
-    const temp = current.temp_C
-    const feelsLike = current.FeelsLikeC
-    const wind = current.windspeedKmph
-    const description = current.weatherDesc[0].value || "Clear"
     const code = parseInt(current.weatherCode)
+    const description = current.weatherDesc[0]?.value || "Clear"
 
-    // Map wttr.in weather codes to lucid icons
-    // Clear/Sunny (113)
-    // Cloudy (116, 119, 122)
-    // Rain/Drizzle (176, 263, 266, 281, 284, 293, 296, 299, 302, 305, 308, 311, 314, 353, 356, 359)
-    // Snow/Ice (179, 182, 185, 227, 230, 317, 320, 323, 326, 329, 332, 335, 338, 350, 362, 365, 368, 371, 374, 377, 395)
     const isSunny = code === 113
     const isCloudy = [116, 119, 122].includes(code)
     const isRainy = code >= 176 && code < 315 && !isCloudy
     const isSnow = code >= 317 || code === 179 || code === 227
 
+    const subLabelStyle = "text-[8px] uppercase tracking-[0.2em] text-[#f9f6f3]/40 font-medium font-sans leading-none"
+    const iconStyle = "text-[#f9f6f3]/80 group-hover:text-[#f9f6f3] transition-colors duration-500"
+
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="flex items-center bg-transparent"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center backdrop-blur-md bg-white/5 border border-white/10 overflow-hidden cursor-default group hover:bg-white/10 transition-all duration-500 rounded-none shadow-premium"
         >
-            {/* Główne info */}
-            <div className="flex items-center gap-4 py-4 px-6">
-                <div className="relative flex items-center justify-center text-white transition-colors">
-                    {isSunny && <Sun className="w-5 h-5" strokeWidth={1.5} />}
-                    {isCloudy && <Cloud className="w-5 h-5" strokeWidth={1.5} />}
-                    {isRainy && <CloudRain className="w-5 h-5" strokeWidth={1.5} />}
-                    {isSnow && <Snowflake className="w-5 h-5" strokeWidth={1.5} />}
-                    {!isSunny && !isCloudy && !isRainy && !isSnow && <Sun className="w-5 h-5" strokeWidth={1.5} />}
+            {/* LEFT: Temp + City */}
+            <div className="flex items-center gap-4 py-4 px-6 border-r border-white/5">
+                 <div className={iconStyle}>
+                    {isSunny && <Sun className="w-5 h-5" strokeWidth={1} />}
+                    {isCloudy && <Cloud className="w-5 h-5" strokeWidth={1} />}
+                    {isRainy && <CloudRain className="w-5 h-5" strokeWidth={1} />}
+                    {isSnow && <Snowflake className="w-5 h-5" strokeWidth={1} />}
+                    {!isSunny && !isCloudy && !isRainy && !isSnow && <Sun className="w-5 h-5" strokeWidth={1} />}
                 </div>
-
-                <div className="flex flex-col">
-                    <span className="text-xl font-medium tracking-tight text-white leading-none">{temp}°C</span>
-                    <span className="text-[8px] uppercase tracking-[0.2em] text-white/50 mt-1">{description}</span>
+                
+                <div className="flex flex-col items-start gap-1 justify-center">
+                    {/* Fixed Height Primary Line for alignment */}
+                    <div className="flex items-baseline gap-0.5 h-5">
+                        <span className="text-xl font-sans font-light text-[#f9f6f3] tracking-tighter leading-none">{current.temp_C}</span>
+                        <span className="text-[9px] text-[#f9f6f3]/60 font-light leading-none">°C</span>
+                    </div>
+                    <div className="h-2 flex items-center">
+                        <span className={subLabelStyle}>Wrocław</span>
+                    </div>
                 </div>
             </div>
 
-            {/* Ekstra info: Wiatr (tylko desktop, uproszczone) */}
-            <div className="hidden lg:flex flex-col justify-center py-4 px-6 border-l border-white/10">
-                <span className="text-[8px] uppercase tracking-wider text-white/40 mb-1">Wiatr</span>
-                <span className="text-xs font-medium tracking-tight text-white/70">{wind} km/h</span>
+            {/* RIGHT: Wind + Condition */}
+            <div className="hidden md:flex items-center gap-4 py-4 px-6">
+                <div className={iconStyle}>
+                    <Wind className="w-5 h-5" strokeWidth={1} />
+                </div>
+                <div className="flex flex-col items-start gap-1 justify-center">
+                    {/* Fixed Height Primary Line (Mirroring Left Side) */}
+                    <div className="flex items-center h-5">
+                        <span className="text-[11px] font-sans text-[#f9f6f3] tracking-widest font-light uppercase leading-none">{description.toLowerCase()}</span>
+                    </div>
+                    <div className="h-2 flex items-center">
+                        <span className={subLabelStyle}>{current.windspeedKmph} km/h</span>
+                    </div>
+                </div>
             </div>
         </motion.div>
     )

@@ -87,11 +87,11 @@ export function WelcomeSection() {
                     </div>
                 </div>
 
-                {/* ── The Letter Content ── TOP LAYER ── */}
-                <div className="relative z-20 max-w-[500px] mx-auto flex flex-col items-center text-center px-6">
+                {/* ── The Letter Content ── TOP LAYER (Compressed and offset for Navbar) ── */}
+                <div className="relative z-20 max-w-[600px] mx-auto flex flex-col items-center text-center px-6 pt-24 md:pt-32">
                     
-                    {/* Monogram */}
-                    <motion.div className="mb-12 h-16 w-56 bg-foreground" 
+                    {/* Monogram (Compressed) */}
+                    <motion.div className="mb-8 h-12 w-48 bg-foreground" 
                         style={{ 
                             maskImage: "url('/Loga/kollataja_logo.svg')", 
                             maskRepeat: "no-repeat", 
@@ -104,15 +104,15 @@ export function WelcomeSection() {
                         }}
                     />
 
-                    <span className="eye-brow mb-6">
+                    <span className="eye-brow mb-4">
                         Witaj w Kołłątaja 23
                     </span>
 
-                    <h2 className="section-heading !text-center !leading-[1.1] mb-12">
+                    <h2 className="section-heading !text-center !leading-[1.1] mb-8">
                         Miejsce, gdzie historia <br className="hidden md:block" /> spotyka spokój.
                     </h2>
 
-                    <div className="flex flex-col gap-8 text-foreground/60 text-base md:text-[17px] leading-relaxed font-light tracking-wide">
+                    <div className="flex flex-col gap-6 text-foreground/60 text-base md:text-[17px] leading-relaxed font-light tracking-wide">
                         <p>
                             Witaj w Kołłątaja 23, Twojej nowej oazie w tętniącym sercu Wrocławia. 
                             Wierzymy, że prawdziwy luksus to nie tylko piękny design, ale przede wszystkim 
@@ -126,13 +126,13 @@ export function WelcomeSection() {
                         </p>
                     </div>
 
-                    <div className="mt-16 flex flex-col items-center">
-                        <div className="mb-2">
-                             <p className="text-[22px] font-serif text-foreground tracking-tight">Agnieszka & Piotr Rola</p>
+                    <div className="mt-12 flex flex-col items-center">
+                        <div className="mb-1">
+                             <p className="text-[20px] font-serif text-foreground tracking-tight">Agnieszka & Piotr Rola</p>
                         </div>
-                        <p className="font-sans text-[16px] leading-[18px] font-light text-[#a1826a]">
+                        <p className="font-sans text-[15px] leading-[18px] font-light text-[#a1826a]">
                              Właściciele Kołłątaja 23
-                        </p>
+                         </p>
                     </div>
                 </div>
 

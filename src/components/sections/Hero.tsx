@@ -67,9 +67,7 @@ export function Hero() {
 
                 {/* ── Weather Widget (Relative to 1440px container) ── */}
                 <div className="absolute bottom-12 right-6 md:right-12 z-20 hidden md:block w-auto pointer-events-auto">
-                    <div className="bg-background/10 backdrop-blur-md border border-[#f9f6f3]/10 p-1">
-                        <WeatherWidget />
-                    </div>
+                    <WeatherWidget />
                 </div>
             </div>
         </section>

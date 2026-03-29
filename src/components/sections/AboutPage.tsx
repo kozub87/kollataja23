@@ -1,8 +1,8 @@
 "use client"
 import { motion, useScroll, useTransform } from "framer-motion"
-import Link from "next/link"
 import { Navbar } from "@/components/ui/Navbar"
 import { Footer } from "@/components/sections/Footer"
+import { SectionSeparator } from "@/components/ui/SectionSeparator"
 
 const historySteps = [
     {
@@ -62,6 +62,7 @@ export function AboutPage() {
 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col items-center px-6 mt-16 max-w-[1440px] w-full">
+                    {/* "O Nas" Label removed per feedback */}
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -75,6 +76,7 @@ export function AboutPage() {
 
             {/* ── 3. Intro / Philosophy ── */}
             <section className="py-32 lg:py-48 px-6 max-w-[800px] mx-auto text-center flex flex-col items-center">
+                {/* Simplified Intro: Logo only */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -112,8 +114,10 @@ export function AboutPage() {
                 </motion.p>
             </section>
 
+            <SectionSeparator />
+
             {/* ── 4. Asymmetric Story (History) ── */}
-            <section className="pb-32 lg:pb-48 px-6 md:px-12 max-w-[1440px] mx-auto">
+            <section className="py-32 lg:py-48 px-6 md:px-12 max-w-[1440px] mx-auto">
                 <div className="flex flex-col gap-24 lg:gap-40">
                     {historySteps.map((step, index) => {
                         const isEven = index % 2 === 0;
@@ -145,13 +149,16 @@ export function AboutPage() {
                                     transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
                                     className="w-full lg:w-1/2 flex flex-col justify-center max-w-lg"
                                 >
-                                    <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal mb-2">
-                                        {step.year}
-                                    </span>
-                                    <h3 className="font-serif text-3xl md:text-4xl text-[#1f3a40] tracking-tight mb-6">
+                                    {/* Styled Date per feedback: Color #0f677d, Bricolage Font, Tracking -0.32px */}
+                                    <div className="flex flex-col mb-4">
+                                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal mb-0">
+                                            {step.year}
+                                        </span>
+                                    </div>
+                                    <h3 className="font-serif text-3xl md:text-5xl text-[#1f3a40] tracking-tight mb-8">
                                         {step.title}
                                     </h3>
-                                    <p className="font-sans text-[16px] leading-[1.8] text-foreground/70">
+                                    <p className="font-sans text-[16px] md:text-[18px] leading-[1.8] text-foreground/60 text-balance">
                                         {step.description}
                                     </p>
                                 </motion.div>
@@ -162,31 +169,10 @@ export function AboutPage() {
                 </div>
             </section>
 
-            {/* ── 5. Outro / Call to action ── */}
-            <section className="py-24 lg:py-32 border-t border-foreground/10 px-6 text-center">
-                <div className="max-w-2xl mx-auto flex flex-col items-center">
-                    <span className="font-sans text-[11px] font-medium tracking-[0.2em] uppercase text-[#a1826a] mb-6">
-                        Prawdziwa Gościnność
-                    </span>
-                    <h2 className="font-serif text-3xl md:text-5xl text-[#1f3a40] leading-tight mb-8">
-                        To nie korporacja. <br/> To projekt z pasji.
-                    </h2>
-                    <p className="font-sans text-[16px] leading-relaxed text-foreground/60 mb-12">
-                        Nie oferujemy tylko kluczy do pokoju. Jesteśmy tu, by zapewnić Ci autentyczne wrocławskie doświadczenie. 
-                        Gdy nas potrzebujesz — odbieramy telefon. A gdy potrzebujesz spokoju — znikamy w cieniu.
-                    </p>
-                    <Link 
-                        href="/#apartamenty" 
-                        className="inline-block px-12 py-5 border border-[#1f3a40]/20 text-[#1f3a40] font-sans text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-[#a1826a] hover:text-[#f9f6f3] hover:border-[#a1826a] transition-all duration-300"
-                    >
-                        Pobyt u Nas
-                    </Link>
-                </div>
-            </section>
-
-            {/* ── 6. Standard Footer ── */}
+            {/* ── 5. Standard Footer Area Placeholder (Separated like other pages) ── */}
+            <SectionSeparator />
             <Footer />
             
         </main>
     )
-} 
+}

@@ -1,6 +1,5 @@
 "use client"
 import { motion } from "framer-motion"
-import Link from "next/link"
 import { useRef } from "react"
 import type { Apartment } from "@/lib/apartments"
 import { Navbar } from "@/components/ui/Navbar"
@@ -16,14 +15,18 @@ import {
     Wind, 
     Utensils, 
     Bed, 
-    Waves, 
     ShowerHead, 
     Refrigerator, 
     WashingMachine, 
-    Monitor,
     Key,
-    User,
-    Square
+    Square,
+    Zap,
+    Thermometer,
+    ChefHat,
+    Waves,
+    Bath,
+    Home,
+    Search
 } from "lucide-react"
 
 interface Props {
@@ -31,21 +34,26 @@ interface Props {
     others: Apartment[]
 }
 
-// Icon mapping for amenities
+// Extended Icon mapping for amenities - replacing "dots/squares" with meaningful icons
 const getAmenityIcon = (name: string) => {
     const n = name.toLowerCase()
     if (n.includes('wi-fi') || n.includes('wifi')) return <Wifi className="w-4 h-4" />
-    if (n.includes('tv') || n.includes('telewizor')) return <Tv className="w-4 h-4" />
+    if (n.includes('tv') || n.includes('telewizor') || n.includes('ekran')) return <Tv className="w-4 h-4" />
     if (n.includes('kawa') || n.includes('ekspres')) return <Coffee className="w-4 h-4" />
-    if (n.includes('klimatyzacja')) return <Wind className="w-4 h-4" />
-    if (n.includes('kuchnia') || n.includes('aneks')) return <Utensils className="w-4 h-4" />
-    if (n.includes('łóżko') || n.includes('materac')) return <Bed className="w-4 h-4" />
+    if (n.includes('klimatyzacja') || n.includes('nawiew')) return <Wind className="w-4 h-4" />
+    if (n.includes('kuchnia') || n.includes('aneks') || n.includes('płyta') || n.includes('czajnik')) return <Utensils className="w-4 h-4" />
+    if (n.includes('łóżko') || n.includes('materac') || n.includes('sypialnia')) return <Bed className="w-4 h-4" />
     if (n.includes('prysznic')) return <ShowerHead className="w-4 h-4" />
-    if (n.includes('pralka')) return <WashingMachine className="w-4 h-4" />
+    if (n.includes('wanna')) return <Bath className="w-4 h-4" />
+    if (n.includes('pralka') || n.includes('pranie')) return <WashingMachine className="w-4 h-4" />
     if (n.includes('lodówka')) return <Refrigerator className="w-4 h-4" />
-    if (n.includes('ręczniki')) return <Waves className="w-4 h-4" />
-    if (n.includes('self check-in') || n.includes('klucze')) return <Key className="w-4 h-4" />
-    return <Square className="w-4 h-4" /> // Default
+    if (n.includes('ręczniki') || n.includes('kosmetyki')) return <Waves className="w-4 h-4" />
+    if (n.includes('self check-in') || n.includes('klucze') || n.includes('kod')) return <Key className="w-4 h-4" />
+    if (n.includes('ogrzewanie')) return <Thermometer className="w-4 h-4" />
+    if (n.includes('śniadanie') || n.includes('jedzenie')) return <ChefHat className="w-4 h-4" />
+    if (n.includes('widok')) return <Search className="w-4 h-4" />
+    if (n.includes('balkon')) return <Home className="w-4 h-4" />
+    return <Zap className="w-4 h-4" /> // More dynamic default than Square
 }
 
 export function ApartamentDetail({ apartment: apt, others }: Props) {
@@ -61,7 +69,8 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
         }
     }
 
-    const headerLabelClass = "font-sans text-[16px] leading-[24px] text-[#0f677d] font-medium tracking-[-0.32px] mb-10 block text-left"
+    // Refined Label Class based on user feedback
+    const headerLabelClass = "font-sans text-[16px] leading-[24px] text-[#0f677d] font-light tracking-[-0.32px] mb-10 block text-left"
 
     return (
         <main className="min-h-screen bg-[#f9f6f3] text-foreground font-sans antialiased selection:bg-[#1f3a40]/10">
@@ -114,7 +123,8 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
 
             {/* ── 3. About Section (Parameters, Description, Booking Links) ── */}
             <section id="o-apartamencie" className="max-w-[1440px] mx-auto px-6 md:px-12 py-24 lg:py-32 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
-                <div className="lg:col-span-5 flex flex-col items-start border-t border-foreground/15 pt-8">
+                {/* Fixed Grid Alignment (pt-0 on parent, specific spacing inside) */}
+                <div className="lg:col-span-5 flex flex-col items-start border-t border-foreground/15 pt-8 mt-0">
                     <span className={headerLabelClass}>Przegląd</span>
                     
                     <ul className="flex flex-col w-full mb-12">
@@ -162,7 +172,7 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                     </div>
                 </div>
 
-                <div className="lg:col-span-7 flex flex-col pt-8 border-t border-foreground/15">
+                <div className="lg:col-span-7 flex flex-col pt-8 mt-0 border-t border-foreground/15">
                     <span className={headerLabelClass}>Opis Lokalu</span>
                     
                     <h2 className="font-serif text-3xl md:text-5xl text-[#1f3a40] tracking-tight mb-8">
@@ -178,44 +188,42 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
 
             {/* ── 4. Gallery Carousel ── */}
             <section className="w-full bg-[#f9f6f3] py-24 lg:py-32 text-foreground overflow-hidden">
-                <div className="max-w-[1440px] mx-auto px-6 md:px-12 mb-16 flex justify-between items-end">
-                    <div className="flex flex-col">
-                        <span className={headerLabelClass.replace('mb-10', 'mb-4')}>Wnętrza</span>
-                        <h2 className="font-serif text-4xl lg:text-[56px] tracking-tight text-[#1f3a40]">Galeria</h2>
-                    </div>
-                    
-                    {/* Replaced Text with Reviews-style Navigation */}
-                    <div className="flex items-center gap-4 hidden md:flex">
-                        <button 
-                            onClick={() => scroll('left')}
-                            className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-colors"
-                        >
-                            <ArrowLeft className="w-5 h-5 stroke-[1.2]" />
-                        </button>
-                        <button 
-                            onClick={() => scroll('right')}
-                            className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-colors"
-                        >
-                            <ArrowRight className="w-5 h-5 stroke-[1.2]" />
-                        </button>
-                    </div>
+                <div className="max-w-[1440px] mx-auto px-6 md:px-12 mb-12 flex flex-col items-center text-center">
+                    <span className={headerLabelClass.replace('mb-10', 'mb-4').replace('text-left', 'text-center')}>Wnętrza</span>
+                    <h2 className="font-serif text-4xl lg:text-[72px] tracking-tight text-[#1f3a40] mb-12">Galeria</h2>
                 </div>
                 
                 {/* Scroll Container */}
                 <div 
                     ref={scrollContainerRef}
-                    className="flex gap-6 overflow-x-auto px-6 md:px-12 pb-8 scrollbar-hide snap-x snap-mandatory [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}
+                    className="flex gap-6 overflow-x-auto px-6 md:px-12 pb-16 scrollbar-hide snap-x snap-mandatory [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}
                 >
                     {apt.images.map((img, i) => (
-                        <div key={i} className="min-w-[85vw] md:min-w-[65vw] lg:min-w-[900px] aspect-[4/3] md:h-[600px] shrink-0 snap-center relative overflow-hidden bg-foreground/5 group">
+                        <div key={i} className="min-w-[85vw] md:min-w-[70vw] lg:min-w-[1000px] aspect-[16/9] lg:h-[650px] shrink-0 snap-center relative overflow-hidden bg-foreground/5 group border border-foreground/5">
                             <img 
                                 src={img} 
                                 alt={`${apt.title} - Zdjęcie ${i+1}`} 
-                                className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]" 
+                                className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.02]" 
                                 loading={i === 0 ? "eager" : "lazy"}
                             />
                         </div>
                     ))}
+                </div>
+
+                {/* Reviews-style Centered Navigation Controls */}
+                <div className="flex items-center justify-center gap-4 mt-8">
+                    <button 
+                        onClick={() => scroll('left')}
+                        className="w-[52px] h-[52px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-all hover:scale-105"
+                    >
+                        <ArrowLeft className="w-5 h-5 stroke-[1.2]" />
+                    </button>
+                    <button 
+                        onClick={() => scroll('right')}
+                        className="w-[52px] h-[52px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-all hover:scale-105"
+                    >
+                        <ArrowRight className="w-5 h-5 stroke-[1.2]" />
+                    </button>
                 </div>
             </section>
 
@@ -229,13 +237,13 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                         <h2 className="font-serif text-4xl lg:text-[56px] tracking-tight text-[#1f3a40]">Wyposażenie</h2>
                     </div>
                     <div className="lg:col-span-8 flex flex-col">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 pt-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-12 pt-4">
                             {apt.amenities.map(a => (
-                                <div key={a} className="flex items-center gap-4 py-2 border-b border-foreground/5">
+                                <div key={a} className="flex items-center gap-5 py-4 border-b border-foreground/5">
                                     <div className="text-[#0f677d]">
                                         {getAmenityIcon(a)}
                                     </div>
-                                    <span className="font-sans text-[15px] text-foreground/80">{a}</span>
+                                    <span className="font-sans text-[15px] text-[#1f3a40] font-normal">{a}</span>
                                 </div>
                             ))}
                         </div>

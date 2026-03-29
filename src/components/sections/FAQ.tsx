@@ -75,7 +75,7 @@ export function FAQ() {
                     
                     {/* ── Left Column: Headers ── */}
                     <div className="lg:col-span-4 flex flex-col">
-                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] mb-8 font-normal">
+                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] mb-8 font-normal lg:text-left text-center block">
                             FAQ
                         </span>
                         
