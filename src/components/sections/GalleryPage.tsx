@@ -3,7 +3,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { apartments } from "@/lib/apartments"
-import { MobileMenu } from "@/components/ui/MobileMenu"
+import { Navbar } from "@/components/ui/Navbar"
 
 // ── Build flat image list from apartments data ────────────────────────────────
 const allPhotos = apartments.flatMap(apt =>
@@ -46,22 +46,10 @@ export function GalleryPage() {
             tabIndex={-1}
         >
             {/* ── Top nav ── */}
-            <nav className="flex items-center px-4 md:px-8 py-5 border-b border-foreground/15 sticky top-0 z-50 bg-background/95 backdrop-blur-sm">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-60 transition-opacity group">
-                    <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase text-foreground/50 group-hover:text-foreground transition-colors">
-                        ← Powrót
-                    </span>
-                </Link>
-                <Link href="/" className="absolute left-1/2 -translate-x-1/2 font-semibold text-lg tracking-tighter uppercase text-foreground flex items-start hover:opacity-60 transition-opacity">
-                    KOŁŁĄTAJA 23<sup className="text-[8px] ml-0.5 mt-1 font-bold">®</sup>
-                </Link>
-                <div className="ml-auto">
-                    <MobileMenu activePath="/galeria" />
-                </div>
-            </nav>
+            <Navbar variant="subpage" activePath="/galeria" />
 
             {/* ── Header + filters ── */}
-            <div className="px-4 md:px-8 pt-14 pb-8 border-b border-foreground/15 flex flex-col md:flex-row justify-between md:items-end gap-8">
+            <div className="px-12 pt-14 pb-8 border-b border-foreground/15 flex flex-col md:flex-row justify-between md:items-end gap-8">
                 <div>
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-2.5 h-2.5 bg-foreground" />
@@ -70,7 +58,7 @@ export function GalleryPage() {
                     <motion.h1
                         initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-5xl md:text-7xl font-semibold tracking-tighter uppercase leading-[1.05] text-foreground"
+                        className="text-5xl md:text-7xl uppercase leading-none font-serif text-foreground"
                     >
                         WSZYSTKIE<br />PRZESTRZENIE.
                     </motion.h1>
@@ -82,7 +70,7 @@ export function GalleryPage() {
                         <button
                             key={opt.value}
                             onClick={() => setFilter(opt.value)}
-                            className={`px-4 py-2.5 text-[9px] font-semibold tracking-widest transition-all border-r last:border-r-0 border-foreground/15
+                            className={`px-4 py-2.5 text-[9px] font-medium tracking-widest uppercase transition-all border-r last:border-r-0 border-foreground/15
                                 ${filter === opt.value
                                     ? "bg-foreground text-background"
                                     : "text-foreground/50 hover:text-foreground"
@@ -95,14 +83,14 @@ export function GalleryPage() {
             </div>
 
             {/* ── Photo count ── */}
-            <div className="px-4 md:px-8 py-3 border-b border-foreground/12 flex items-center gap-3">
-                <span className="text-[9px] font-semibold tracking-widest uppercase text-foreground/35">
+            <div className="px-12 py-3 border-b border-foreground/12 flex items-center gap-3">
+                <span className="text-[9px] font-medium tracking-widest uppercase text-foreground/35">
                     {photos.length} {photos.length === 1 ? "zdjęcie" : "zdjęć"}
                 </span>
             </div>
 
             {/* ── Masonry-style grid ── */}
-            <div className="p-4 md:p-8">
+            <div className="p-12">
                 <motion.div
                     layout
                     className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3"

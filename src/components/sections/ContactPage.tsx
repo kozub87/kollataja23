@@ -1,62 +1,50 @@
 "use client"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import Link from "next/link"
+import { Mail, Phone, MapPin, ChevronRight } from "lucide-react"
 import { LeafletMap } from "@/components/ui/LeafletMap"
-import { MobileMenu } from "@/components/ui/MobileMenu"
+import { Navbar } from "@/components/ui/Navbar"
+import { Footer } from "@/components/sections/Footer"
 
 // ── FAQ data ──────────────────────────────────────────────────────────────────
-const faq = [
+const faqItems = [
     {
         q: "O której godzinie można się zameldować i wymeldować?",
-        a: "Zameldowanie możliwe jest od godziny 15:00, wymeldowanie do 11:00. W przypadku dostępności możemy ustalić inny termin — skontaktuj się z nami.",
+        a: "Standardowo zameldowanie możliwe jest od godziny 15:00, a wymeldowanie do godziny 11:00. Jeśli planujesz przyjazd wcześniej lub wyjazd później, daj nam znać — w miarę dostępności apartamentów postaramy się dostosować do Twoich potrzeb.",
     },
     {
-        q: "Czy możliwe jest wcześniejsze/późniejsze zameldowanie?",
-        a: "Tak, w miarę możliwości staramy się to umożliwić. Prosimy o kontakt z wyprzedzeniem, aby potwierdzić dostępność apartamentu.",
+        q: "Czy oferujecie system bezkontaktowego zameldowania?",
+        a: "Tak, dla pełnego komfortu naszych gości korzystamy z systemu self check-in. Klucze odbierzesz ze skrytki na kod o dowolnej porze po godzinie 15:00. Wszystkie instrukcje prześlemy Ci przed przyjazdem.",
     },
     {
-        q: "Czy obowiązuje minimalny czas pobytu?",
-        a: "Minimalny pobyt to 2 noce. W sezonie letnim i świątecznym może obowiązywać minimalny pobyt 3 noce.",
+        q: "Czy w kamienicy jest parking dla gości?",
+        a: "Bezpośrednio przy kamienicy nie posiadamy własnego parkingu. Kołłątaja 23 znajduje się jednak w strefie z dostępnymi płatnymi miejscami postojowymi, a w promieniu 300 metrów działają dwa parkingi strzeżone.",
     },
     {
-        q: "Czy możliwe jest zakwaterowanie ze zwierzętami?",
-        a: "Niestety nie akceptujemy zwierząt domowych. Nasze apartamenty są zaprojektowane z myślą o komforcie wszystkich gości.",
+        q: "Czy apartamenty są przyjazne zwierzętom?",
+        a: "Niestety, ze względu na zabytkowy charakter wykończenia i dbając o komfort alergików, nie przyjmujemy gości ze zwierzętami. Dziękujemy za zrozumienie.",
     },
     {
-        q: "Jak przebiega zameldowanie? Czy jest recepcja?",
-        a: "Korzystamy z systemu self check-in — klucze dostępne są w skrzynce na kody 24/7. Przed przyjazdem wyślemy szczegółowe instrukcje.",
-    },
-    {
-        q: "Czy jest dostępny parking?",
-        a: "Bezpośrednio przy budynku nie ma naszego parkingu. W okolicy dostępne są płatne parkingi publiczne (ok. 5 min piechotą). Chętnie doradzimy.",
-    },
-    {
-        q: "Czy dostępna jest faktura VAT?",
-        a: "Tak, na życzenie wystawiamy fakturę VAT. Prosimy podać dane firmy przy rezerwacji lub drogą mailową.",
+        q: "Czy wystawiacie faktury VAT?",
+        a: "Tak, oczywiście. Jeśli potrzebujesz faktury za pobyt, prosimy o kontakt lub podanie danych firmy podczas dokonywania rezerwacji.",
     },
 ]
 
-// ── FAQ Item ──────────────────────────────────────────────────────────────────
-function FaqItem({ q, a, idx }: { q: string; a: string; idx: number }) {
+// ── FAQ Accordion Item ────────────────────────────────────────────────────────
+function FaqAccordionItem({ q, a, idx }: { q: string; a: string; idx: number }) {
     const [open, setOpen] = useState(false)
     return (
-        <div className="border-b border-foreground/12 last:border-b-0">
+        <div className="border-b border-[#1f3a40]/10 last:border-b-0">
             <button
                 onClick={() => setOpen(!open)}
-                className="w-full flex items-start justify-between gap-4 py-5 text-left group"
+                className="w-full flex items-center justify-between py-8 text-left group"
             >
-                <div className="flex items-start gap-4">
-                    <span className="text-[9px] font-semibold tracking-widest text-foreground/30 mt-0.5 shrink-0">
-                        {String(idx + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-foreground leading-relaxed">
-                        {q}
-                    </span>
+                <h4 className="font-serif text-xl md:text-2xl text-[#1f3a40] tracking-tight group-hover:opacity-60 transition-opacity">
+                    {q}
+                </h4>
+                <div className={`w-8 h-8 rounded-full border border-[#1f3a40]/10 flex items-center justify-center shrink-0 transition-transform duration-500 ${open ? "rotate-90 bg-[#1f3a40] text-[#f9f6f3]" : ""}`}>
+                    <ChevronRight className="w-4 h-4" />
                 </div>
-                <span className={`text-foreground/50 text-lg shrink-0 transition-transform duration-300 ${open ? "rotate-45" : ""}`}>
-                    +
-                </span>
             </button>
             <AnimatePresence initial={false}>
                 {open && (
@@ -64,10 +52,10 @@ function FaqItem({ q, a, idx }: { q: string; a: string; idx: number }) {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
                         className="overflow-hidden"
                     >
-                        <p className="text-sm text-foreground/65 leading-relaxed pb-5 pl-9">
+                        <p className="font-sans text-[16px] leading-[1.8] text-foreground/60 pb-8 max-w-3xl">
                             {a}
                         </p>
                     </motion.div>
@@ -81,8 +69,7 @@ function FaqItem({ q, a, idx }: { q: string; a: string; idx: number }) {
 export function ContactPage() {
     const [submitted, setSubmitted] = useState(false)
     const [form, setForm] = useState({
-        name: "", email: "", phone: "", dateFrom: "", dateTo: "",
-        apartment: "", message: "",
+        name: "", email: "", apartment: "Wybierz apartament", message: ""
     })
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -91,217 +78,186 @@ export function ContactPage() {
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
-        // In production: replace with Formspree / EmailJS / API route
         setSubmitted(true)
+        setTimeout(() => setSubmitted(false), 5000)
     }
 
     return (
-        <main className="min-h-screen bg-background text-foreground font-sans antialiased">
+        <main className="min-h-screen bg-[#f9f6f3] text-foreground font-sans antialiased selection:bg-[#a1826a]/10">
 
-            {/* ── Top nav ── */}
-            <nav className="flex items-center px-4 md:px-8 py-5 border-b border-foreground/15 sticky top-0 z-50 bg-background/95 backdrop-blur-sm">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-60 transition-opacity group">
-                    <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase text-foreground/50 group-hover:text-foreground transition-colors">
-                        ← Powrót
-                    </span>
-                </Link>
-                <Link href="/" className="absolute left-1/2 -translate-x-1/2 font-semibold text-lg tracking-tighter uppercase text-foreground flex items-start hover:opacity-60 transition-opacity">
-                    KOŁŁĄTAJA 23<sup className="text-[8px] ml-0.5 mt-1 font-bold">®</sup>
-                </Link>
-                <div className="ml-auto">
-                    <MobileMenu activePath="/kontakt" />
-                </div>
-            </nav>
+            {/* ── 1. Navbar ── */}
+            <Navbar variant="subpage" activePath="/kontakt" />
 
-            {/* ── Section header ── */}
-            <div className="px-4 md:px-8 pt-14 pb-10 border-b border-foreground/15">
-                <div className="flex items-center gap-3 mb-7">
-                    <div className="w-2.5 h-2.5 bg-foreground" />
-                    <span className="text-xs font-semibold tracking-widest uppercase text-foreground/55">Kontakt</span>
-                </div>
-                <motion.h1
-                    initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="text-5xl md:text-7xl lg:text-[90px] font-semibold tracking-tighter uppercase leading-[1.05] text-foreground"
+            {/* ── 2. Hero Section ── */}
+            <section className="pt-48 pb-24 px-6 md:px-12 max-w-[1440px] mx-auto text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
                 >
-                    NAPISZ<br />DO NAS.
-                </motion.h1>
-            </div>
+                    <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#a1826a] font-normal mb-6 block">
+                        Kontakt
+                    </span>
+                    <h1 className="font-serif text-5xl md:text-7xl lg:text-[88px] text-[#1f3a40] leading-[1.1] mb-8 tracking-tighter">
+                        Bądźmy w kontakcie.
+                    </h1>
+                    <p className="font-sans text-[16px] md:text-[18px] text-foreground/60 max-w-2xl mx-auto text-balance">
+                        Masz pytania dotyczące pobytu lub potrzebujesz pomocy w rezerwacji? 
+                        Jesteśmy tu, by zapewnić Ci bezproblemowy i wyjątkowy czas we Wrocławiu.
+                    </p>
+                </motion.div>
+            </section>
 
-            {/* ── Two-column body ── */}
-            <div className="flex flex-col lg:grid lg:grid-cols-[3fr_2fr]">
+            {/* ── 3. Contact & Form Layout ── */}
+            <section className="py-24 px-6 md:px-12 max-w-[1440px] mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
+                    
+                    {/* INFO COLUMN (4/12) */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="lg:col-span-4 flex flex-col gap-16"
+                    >
+                        <div className="flex flex-col gap-10">
+                            {[
+                                { icon: Mail, label: "Napisz do nas", value: "kontakt@kollataja23.pl", href: "mailto:kontakt@kollataja23.pl" },
+                                { icon: Phone, label: "Zadzwoń", value: "+48 123 456 789", href: "tel:+48123456789" },
+                                { icon: MapPin, label: "Odwiedź nas", value: "ul. Kołłątaja 23, 50-007 Wrocław", href: "https://maps.google.com/?q=Kołłątaja+23,+Wrocław" },
+                            ].map((item, idx) => (
+                                <div key={idx} className="flex gap-6 group">
+                                    <div className="w-12 h-12 rounded-full border border-[#1f3a40]/10 flex items-center justify-center shrink-0 group-hover:bg-[#1f3a40] group-hover:text-[#f9f6f3] transition-all duration-300">
+                                        <item.icon className="w-5 h-5" />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">
+                                            {item.label}
+                                        </span>
+                                        <a 
+                                            href={item.href} 
+                                            target={item.href?.startsWith("http") ? "_blank" : undefined}
+                                            className="font-serif text-xl text-[#1f3a40] hover:text-[#a1826a] transition-colors leading-tight"
+                                        >
+                                            {item.value}
+                                        </a>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
-                {/* ── LEFT: Form ── */}
-                <div className="px-4 md:px-8 py-12 border-b lg:border-b-0 lg:border-r border-foreground/15">
-                    {submitted ? (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                            className="flex flex-col gap-5 py-12"
-                        >
-                            <div className="w-10 h-10 bg-foreground flex items-center justify-center">
-                                <span className="text-background text-lg font-bold">✓</span>
+                        {/* Partner Logos */}
+                        <div className="flex flex-col gap-6 pt-10 border-t border-[#1f3a40]/10">
+                            <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Nasze platformy</span>
+                            <div className="flex gap-8 items-center">
+                                <a href="https://booking.com" target="_blank" rel="noopener noreferrer" className="h-6 opacity-70 hover:opacity-100 transition-opacity">
+                                    <img src="/Loga/booking.svg" alt="Booking.com" className="h-full w-auto mix-blend-multiply opacity-60" />
+                                </a>
+                                <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="h-6 opacity-70 hover:opacity-100 transition-opacity">
+                                    <img src="/Loga/airbnb.svg" alt="Airbnb" className="h-full w-auto mix-blend-multiply opacity-60" />
+                                </a>
                             </div>
-                            <h2 className="text-3xl font-semibold tracking-tighter uppercase text-foreground">
-                                WIADOMOŚĆ WYSŁANA
-                            </h2>
-                            <p className="text-sm text-foreground/60 leading-relaxed max-w-md">
-                                Dziękujemy za kontakt! Odezwiemy się w ciągu 24 godzin (zazwyczaj szybciej).
-                                W pilnych sprawach zadzwoń bezpośrednio.
-                            </p>
-                            <button
-                                onClick={() => { setSubmitted(false); setForm({ name: "", email: "", phone: "", dateFrom: "", dateTo: "", apartment: "", message: "" }) }}
-                                className="text-[10px] font-semibold tracking-widest uppercase text-foreground border-b border-foreground w-max pb-0.5 hover:opacity-50 transition-opacity mt-4"
+                        </div>
+                    </motion.div>
+
+                    {/* FORM COLUMN (8/12) */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="lg:col-span-8 bg-white p-8 md:p-16 rounded-[4px] shadow-sm border border-[#1f3a40]/5"
+                    >
+                        {submitted ? (
+                            <motion.div 
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="h-full flex flex-col items-center justify-center text-center py-20"
                             >
-                                WYŚLIJ KOLEJNĄ →
-                            </button>
-                        </motion.div>
-                    ) : (
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-0">
-                            <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 mb-8 block">
-                                Formularz kontaktowy
-                            </span>
-
-                            {/* Row: Name + Email */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 border-t border-foreground/12">
-                                <div className="flex flex-col gap-1.5 py-5 pr-0 sm:pr-6 border-b sm:border-b-0 border-foreground/12 sm:border-r">
-                                    <label className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">Imię i nazwisko *</label>
-                                    <input
-                                        required name="name" value={form.name} onChange={handleChange}
-                                        className="bg-transparent text-sm font-medium text-foreground placeholder:text-foreground/25 outline-none border-none w-full py-1"
-                                        placeholder="Jan Kowalski"
-                                    />
+                                <div className="w-20 h-20 bg-[#1f3a40] text-[#f9f6f3] rounded-full flex items-center justify-center mb-8">
+                                    <ChevronRight className="w-10 h-10 rotate-[-90deg]" />
                                 </div>
-                                <div className="flex flex-col gap-1.5 py-5 sm:pl-6">
-                                    <label className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">Email *</label>
-                                    <input
-                                        required type="email" name="email" value={form.email} onChange={handleChange}
-                                        className="bg-transparent text-sm font-medium text-foreground placeholder:text-foreground/25 outline-none border-none w-full py-1"
-                                        placeholder="jan@email.pl"
-                                    />
+                                <h3 className="font-serif text-4xl text-[#1f3a40] mb-4">Wiadomość wysłana.</h3>
+                                <p className="font-sans text-foreground/60">Dziękujemy! Skontaktujemy się z Tobą najszybciej jak to możliwe.</p>
+                            </motion.div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="flex flex-col gap-3">
+                                        <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Imię i nazwisko</label>
+                                        <input 
+                                            required name="name" value={form.name} onChange={handleChange}
+                                            className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors"
+                                            placeholder="Jan Kowalski"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-3">
+                                        <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Email</label>
+                                        <input 
+                                            required type="email" name="email" value={form.email} onChange={handleChange}
+                                            className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors"
+                                            placeholder="jan@kowalski.pl"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-
-                            {/* Row: Phone + Apartment */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 border-t border-foreground/12">
-                                <div className="flex flex-col gap-1.5 py-5 pr-0 sm:pr-6 border-b sm:border-b-0 border-foreground/12 sm:border-r">
-                                    <label className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">Telefon</label>
-                                    <input
-                                        type="tel" name="phone" value={form.phone} onChange={handleChange}
-                                        className="bg-transparent text-sm font-medium text-foreground placeholder:text-foreground/25 outline-none border-none w-full py-1"
-                                        placeholder="+48 000 000 000"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-1.5 py-5 sm:pl-6">
-                                    <label className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">Apartament</label>
-                                    <select
+                                <div className="flex flex-col gap-3">
+                                    <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Temat rozmowy</label>
+                                    <select 
                                         name="apartment" value={form.apartment} onChange={handleChange}
-                                        className="bg-transparent text-sm font-medium text-foreground outline-none border-none w-full py-1 cursor-pointer"
+                                        className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors cursor-pointer appearance-none"
                                     >
-                                        <option value="">Wybieram...</option>
-                                        <option value="1">Apartament nr 1 — Studio z Patio</option>
-                                        <option value="2">Apartament nr 2 — Salon z Aneksem</option>
-                                        <option value="3">Apartament nr 3 — Wnętrze z Historią</option>
-                                        <option value="4">Apartament nr 4 — Flagowy (2 sypialnie)</option>
-                                        <option value="any">Dowolny — doradzę</option>
+                                        <option>Wybieram...</option>
+                                        <option>Apartament 1 — Studio</option>
+                                        <option>Apartament 2 — Salon</option>
+                                        <option>Apartament 3 — Historia</option>
+                                        <option>Apartament 4 — Flagowy</option>
+                                        <option>Chcę o coś zapytać</option>
                                     </select>
                                 </div>
-                            </div>
-
-                            {/* Row: Dates */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 border-t border-foreground/12">
-                                <div className="flex flex-col gap-1.5 py-5 pr-0 sm:pr-6 border-b sm:border-b-0 border-foreground/12 sm:border-r">
-                                    <label className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">Data przyjazdu</label>
-                                    <input
-                                        type="date" name="dateFrom" value={form.dateFrom} onChange={handleChange}
-                                        className="bg-transparent text-sm font-medium text-foreground outline-none border-none w-full py-1 cursor-pointer"
+                                <div className="flex flex-col gap-3">
+                                    <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Wiadomość</label>
+                                    <textarea 
+                                        required name="message" value={form.message} onChange={handleChange}
+                                        rows={6}
+                                        className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors resize-none"
+                                        placeholder="Jak możemy Ci pomóc?"
                                     />
                                 </div>
-                                <div className="flex flex-col gap-1.5 py-5 sm:pl-6">
-                                    <label className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">Data wyjazdu</label>
-                                    <input
-                                        type="date" name="dateTo" value={form.dateTo} onChange={handleChange}
-                                        className="bg-transparent text-sm font-medium text-foreground outline-none border-none w-full py-1 cursor-pointer"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Message */}
-                            <div className="flex flex-col gap-1.5 py-5 border-t border-foreground/12">
-                                <label className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">Wiadomość *</label>
-                                <textarea
-                                    required name="message" value={form.message} onChange={handleChange}
-                                    rows={5}
-                                    className="bg-transparent text-sm font-medium text-foreground placeholder:text-foreground/25 outline-none border-none w-full py-1 resize-none"
-                                    placeholder="Opisz swoje oczekiwania, zapytaj o dostępność..."
-                                />
-                            </div>
-
-                            {/* Submit */}
-                            <div className="flex items-center justify-between pt-6 border-t border-foreground/12">
-                                <span className="text-[9px] font-semibold tracking-widest uppercase text-foreground/35">
-                                    * Pola obowiązkowe
-                                </span>
-                                <button
+                                <button 
                                     type="submit"
-                                    className="flex items-center gap-4 bg-foreground text-background px-8 py-4 hover:opacity-85 transition-opacity"
+                                    className="w-full py-5 bg-[#1f3a40] text-[#f9f6f3] font-sans text-[11px] font-semibold tracking-[0.2em] uppercase rounded-[4px] hover:bg-[#a1826a] transition-all duration-300"
                                 >
-                                    <span className="text-[10px] font-semibold tracking-widest uppercase">WYŚLIJ WIADOMOŚĆ</span>
-                                    <span className="text-background/60">→</span>
+                                    Wyślij Wiadomość
                                 </button>
-                            </div>
-                        </form>
-                    )}
+                            </form>
+                        )}
+                    </motion.div>
                 </div>
+            </section>
 
-                {/* ── RIGHT: Info + Map + FAQ ── */}
-                <div className="flex flex-col">
+            {/* ── 4. Map Section ── */}
+            <section className="w-full h-[500px] border-y border-[#1f3a40]/5">
+                <LeafletMap />
+            </section>
 
-                    {/* Contact details */}
-                    <div className="px-4 md:px-8 py-10 flex flex-col gap-6 border-b border-foreground/15">
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50">Dane kontaktowe</span>
-                        <div className="flex flex-col gap-4">
-                            {[
-                                { label: "Email", value: "kontakt@kollataja23.pl", href: "mailto:kontakt@kollataja23.pl" },
-                                { label: "Telefon", value: "+48 123 456 789", href: "tel:+48123456789" },
-                                { label: "Adres", value: "ul. Kołłątaja 23\n50-002 Wrocław", href: undefined },
-                            ].map(c => (
-                                <div key={c.label} className="flex flex-col gap-0.5">
-                                    <span className="text-[9px] font-semibold tracking-widest uppercase text-foreground/35">{c.label}</span>
-                                    {c.href ? (
-                                        <a href={c.href} className="text-sm font-semibold text-foreground hover:opacity-60 transition-opacity whitespace-pre-line">{c.value}</a>
-                                    ) : (
-                                        <span className="text-sm font-semibold text-foreground whitespace-pre-line">{c.value}</span>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                        <div className="flex gap-3 pt-2">
-                            <a href="https://booking.com" target="_blank" rel="noopener noreferrer" className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40 border border-foreground/20 px-3 py-1.5 hover:border-foreground/50 transition-colors">Booking.com</a>
-                            <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40 border border-foreground/20 px-3 py-1.5 hover:border-foreground/50 transition-colors">Airbnb</a>
-                        </div>
+            {/* ── 5. FAQ Section ── */}
+            <section className="py-32 lg:py-48 px-6 md:px-12 max-w-[1440px] mx-auto">
+                <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
+                    <div className="lg:w-1/3">
+                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#a1826a] font-normal mb-6 block">FAQ</span>
+                        <h2 className="font-serif text-4xl md:text-5xl text-[#1f3a40] leading-tight tracking-tight">Często zadawane pytania.</h2>
                     </div>
-
-                    {/* Mini map */}
-                    <div className="border-b border-foreground/15" style={{ height: "200px" }}>
-                        <LeafletMap />
-                    </div>
-
-                    {/* FAQ */}
-                    <div className="px-4 md:px-8 py-10">
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 mb-6 block">FAQ</span>
-                        <div className="flex flex-col">
-                            {faq.map((item, idx) => (
-                                <FaqItem key={idx} q={item.q} a={item.a} idx={idx} />
-                            ))}
-                        </div>
+                    <div className="lg:w-2/3 flex flex-col">
+                        {faqItems.map((item, idx) => (
+                            <FaqAccordionItem key={idx} q={item.q} a={item.a} idx={idx} />
+                        ))}
                     </div>
                 </div>
-            </div>
+            </section>
 
-            {/* ── Footer mini ── */}
-            <div className="flex justify-center md:justify-between items-center px-4 md:px-8 py-5 bg-foreground text-background border-t border-foreground">
-                <span className="text-[9px] font-semibold tracking-widest uppercase text-background/35">© 2026 KOŁŁĄTAJA 23 · WROCŁAW</span>
-            </div>
+            {/* ── 6. Full Footer ── */}
+            <Footer />
+            
         </main>
     )
-}
+} 

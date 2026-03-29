@@ -16,10 +16,10 @@ const amenities = [
 
 export function Amenities() {
     return (
-        <section className="bg-background border-b border-foreground/15">
-
+        <section className="bg-background">
             {/* ── Two-column layout: image left, text + list right ── */}
-            <div className="flex flex-col lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+                <div className="flex flex-col lg:grid lg:grid-cols-2 lg:min-h-[720px] border-x border-foreground/10">
 
                 {/* LEFT — Full-bleed image */}
                 <motion.div
@@ -27,7 +27,7 @@ export function Amenities() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    className="relative w-full h-[60vw] lg:h-auto border-b lg:border-b-0 lg:border-r border-foreground/15 overflow-hidden"
+                    className="relative w-full h-[60vw] lg:h-auto border-b lg:border-b-0 lg:border-r border-foreground/10 overflow-hidden"
                 >
                     <img
                         src="/Landing.jpg"
@@ -37,7 +37,7 @@ export function Amenities() {
                     />
                     {/* Subtle overlay + corner label */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-                    <div className="absolute top-5 left-5 bg-background px-3 py-2 border border-foreground/15">
+                    <div className="absolute top-5 left-5 bg-background px-3 py-2 border border-foreground/8">
                         <span className="text-[9px] font-semibold tracking-[0.2em] uppercase text-foreground">
                             STANDARD HOTELOWY
                         </span>
@@ -47,19 +47,18 @@ export function Amenities() {
                 {/* RIGHT — Heading + amenities list */}
                 <div className="flex flex-col">
                     {/* Heading block */}
-                    <div className="px-5 pt-20 pb-14 md:px-8 md:pt-24 md:pb-16 border-b border-foreground/15">
-                        <div className="flex items-center gap-3 mb-10">
-                            <div className="w-2.5 h-2.5 bg-foreground" />
-                            <span className="text-xs uppercase font-semibold tracking-widest text-foreground/60">Wyposażenie</span>
+                    <div className="px-5 pt-20 pb-14 md:px-8 md:pt-24 md:pb-16 border-b border-foreground/10">
+                        <div className="mb-6">
+                            <span className="eye-brow !text-left">Wyposażenie</span>
                         </div>
                         <motion.h2
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tighter uppercase leading-[1.05] text-foreground"
+                            className="section-heading leading-[1.1]"
                         >
-                            WSZYSTKO<br />CZEGO<br />POTRZEBUJESZ
+                            Wszystko<br />czego<br />potrzebujesz
                         </motion.h2>
                     </div>
 
@@ -72,7 +71,7 @@ export function Amenities() {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true, margin: "-30px" }}
                                 transition={{ duration: 0.4, delay: idx * 0.04 }}
-                                className="flex items-center justify-between px-5 md:px-8 py-5 border-b border-foreground/10 group hover:bg-foreground/3 transition-colors"
+                                className="flex items-center justify-between px-5 md:px-8 py-5 border-b border-foreground/5 group hover:bg-foreground/3 transition-colors"
                             >
                                 <div className="flex items-center gap-5">
                                     <span className="text-[9px] font-semibold tracking-[0.2em] text-foreground/30 w-5 shrink-0">
@@ -89,23 +88,26 @@ export function Amenities() {
                         ))}
                     </div>
                 </div>
+                </div>
             </div>
 
             {/* ── Bottom strip — full-width stat bar ── */}
-            <div className="flex flex-col md:grid md:grid-cols-3 border-t border-foreground/15">
-                {[
-                    { label: "WYPOSAŻENIE", value: "10 UDOGODNIEŃ" },
-                    { label: "DOSTĘPNOŚĆ", value: "24 / 7" },
-                    { label: "ZAMELDOWANIE", value: "SELF CHECK-IN" },
-                ].map((stat, idx) => (
-                    <div
-                        key={stat.label}
-                        className={`flex justify-between items-center md:flex-col md:items-start md:justify-center px-5 py-7 md:px-8 md:py-10 md:gap-3 border-b md:border-b-0 ${idx < 2 ? "md:border-r" : ""} border-foreground/15`}
-                    >
-                        <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-foreground/50">{stat.label}</span>
-                        <span className="text-lg md:text-2xl font-semibold tracking-tighter uppercase text-foreground">{stat.value}</span>
-                    </div>
-                ))}
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+                <div className="flex flex-col md:grid md:grid-cols-3 border-x border-b border-foreground/10">
+                    {[
+                        { label: "WYPOSAŻENIE", value: "10 UDOGODNIEŃ" },
+                        { label: "DOSTĘPNOŚĆ", value: "24 / 7" },
+                        { label: "ZAMELDOWANIE", value: "SELF CHECK-IN" },
+                    ].map((stat, idx) => (
+                        <div
+                            key={stat.label}
+                            className={`flex justify-between items-center md:flex-col md:items-start md:justify-center px-6 py-7 md:px-12 md:py-10 md:gap-3 border-b md:border-b-0 ${idx < 2 ? "md:border-r" : ""} border-foreground/10`}
+                        >
+                            <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-foreground/50">{stat.label}</span>
+                            <span className="text-lg md:text-2xl font-semibold tracking-tighter uppercase text-foreground">{stat.value}</span>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     )

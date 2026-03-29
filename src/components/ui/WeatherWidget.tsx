@@ -56,7 +56,7 @@ export function WeatherWidget() {
         )
     }
 
-    if (error || !weather || !weather.current_condition[0]) {
+    if (error || !weather || !weather.current_condition || !weather.current_condition[0]) {
         // Fallback
         return (
             <div className="flex items-center gap-3 bg-transparent border-t border-foreground/15 px-6 py-4 rounded-none w-full">
@@ -67,10 +67,19 @@ export function WeatherWidget() {
     }
 
     const current = weather.current_condition[0]
+    if (!current || !current.weatherDesc || !current.weatherDesc[0]) {
+        return (
+            <div className="flex items-center gap-3 bg-transparent border-t border-foreground/15 px-6 py-4 rounded-none w-full">
+                <Sun className="w-4 h-4 text-foreground" />
+                <span className="text-xs text-foreground/70 uppercase tracking-widest font-semibold">Wrocław</span>
+            </div>
+        )
+    }
+
     const temp = current.temp_C
     const feelsLike = current.FeelsLikeC
     const wind = current.windspeedKmph
-    const description = current.weatherDesc[0]?.value || "Clear"
+    const description = current.weatherDesc[0].value || "Clear"
     const code = parseInt(current.weatherCode)
 
     // Map wttr.in weather codes to lucid icons
@@ -88,40 +97,28 @@ export function WeatherWidget() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col md:flex-row items-stretch w-full bg-transparent md:divide-x divide-y md:divide-y-0 divide-foreground/15"
+            className="flex items-center bg-transparent"
         >
             {/* Główne info */}
-            <div className="flex items-center gap-4 py-8 px-6 w-full md:w-auto flex-1">
-                <div className="relative flex items-center justify-center text-foreground transition-colors">
-                    {isSunny && <Sun className="w-6 h-6" strokeWidth={1.5} />}
-                    {isCloudy && <Cloud className="w-6 h-6" strokeWidth={1.5} />}
-                    {isRainy && <CloudRain className="w-6 h-6" strokeWidth={1.5} />}
-                    {isSnow && <Snowflake className="w-6 h-6" strokeWidth={1.5} />}
-                    {!isSunny && !isCloudy && !isRainy && !isSnow && <Sun className="w-6 h-6" strokeWidth={1.5} />}
+            <div className="flex items-center gap-4 py-4 px-6">
+                <div className="relative flex items-center justify-center text-white transition-colors">
+                    {isSunny && <Sun className="w-5 h-5" strokeWidth={1.5} />}
+                    {isCloudy && <Cloud className="w-5 h-5" strokeWidth={1.5} />}
+                    {isRainy && <CloudRain className="w-5 h-5" strokeWidth={1.5} />}
+                    {isSnow && <Snowflake className="w-5 h-5" strokeWidth={1.5} />}
+                    {!isSunny && !isCloudy && !isRainy && !isSnow && <Sun className="w-5 h-5" strokeWidth={1.5} />}
                 </div>
 
                 <div className="flex flex-col">
-                    <span className="text-2xl font-medium tracking-tight text-foreground leading-none">{temp}°C</span>
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-foreground/50 mt-1">{description}</span>
+                    <span className="text-xl font-medium tracking-tight text-white leading-none">{temp}°C</span>
+                    <span className="text-[8px] uppercase tracking-[0.2em] text-white/50 mt-1">{description}</span>
                 </div>
             </div>
 
-            {/* Ekstra info 1: Odczuwalna */}
-            <div className="hidden lg:flex flex-col justify-center py-8 px-6 flex-1">
-                <div className="flex items-center gap-1.5 mb-1">
-                    <Droplets className="w-3 h-3 text-primary/60" />
-                    <span className="text-[10px] uppercase tracking-wider text-foreground/60">Odczuwalna</span>
-                </div>
-                <span className="text-sm font-medium tracking-tight text-foreground">{feelsLike}°C</span>
-            </div>
-
-            {/* Ekstra info 2: Wiatr */}
-            <div className="hidden lg:flex flex-col justify-center py-8 px-6 flex-1">
-                <div className="flex items-center gap-1.5 mb-1">
-                    <Wind className="w-3 h-3 text-primary/60" />
-                    <span className="text-[10px] uppercase tracking-wider text-foreground/60">Wiatr</span>
-                </div>
-                <span className="text-sm font-medium tracking-tight text-foreground">{wind} km/h (Rynek)</span>
+            {/* Ekstra info: Wiatr (tylko desktop, uproszczone) */}
+            <div className="hidden lg:flex flex-col justify-center py-4 px-6 border-l border-white/10">
+                <span className="text-[8px] uppercase tracking-wider text-white/40 mb-1">Wiatr</span>
+                <span className="text-xs font-medium tracking-tight text-white/70">{wind} km/h</span>
             </div>
         </motion.div>
     )

@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
+import { Bricolage_Grotesque, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AgentationSetup } from "@/components/AgentationSetup";
 import "./globals.css";
 
-const fontSans = Plus_Jakarta_Sans({
+const fontSans = Bricolage_Grotesque({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const fontSerif = Cormorant_Garamond({
+const fontSerif = Playfair_Display({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-serif",
   display: "swap",
 });
@@ -72,13 +73,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl" suppressHydrationWarning>
-      <body className={`${fontSans.variable} ${fontSerif.variable} antialiased`}>
+      <body className={`${fontSans.variable} ${fontSerif.variable} antialiased bg-background`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
         >
-          {children}
+          <div className="flex flex-col min-h-screen">
+            {children}
+            <AgentationSetup />
+          </div>
         </ThemeProvider>
       </body>
     </html>

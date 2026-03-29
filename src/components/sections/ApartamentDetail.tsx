@@ -1,311 +1,258 @@
 "use client"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { useState } from "react"
+import { useRef } from "react"
 import type { Apartment } from "@/lib/apartments"
-import { LeafletMap } from "@/components/ui/LeafletMap"
-import { MobileMenu } from "@/components/ui/MobileMenu"
+import { Navbar } from "@/components/ui/Navbar"
+import { Footer } from "@/components/sections/Footer"
+import { FAQ } from "@/components/sections/FAQ"
+import { SectionSeparator } from "@/components/ui/SectionSeparator"
+import { 
+    ArrowLeft, 
+    ArrowRight, 
+    Wifi, 
+    Tv, 
+    Coffee, 
+    Wind, 
+    Utensils, 
+    Bed, 
+    Waves, 
+    ShowerHead, 
+    Refrigerator, 
+    WashingMachine, 
+    Monitor,
+    Key,
+    User,
+    Square
+} from "lucide-react"
 
-// ── Typy ──────────────────────────────────────────────────────────────────────
 interface Props {
     apartment: Apartment
     others: Apartment[]
 }
 
-// ── Airbnb SVG icon ───────────────────────────────────────────────────────────
-function AirbnbIcon() {
-    return (
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 fill-current">
-            <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.415.001.228c0 4.062-2.877 6.478-6.357 6.478-2.224 0-4.556-1.258-6.709-3.386l-.257-.26-.644-.672-.624.673-.284.288c-2.072 2.023-4.303 3.357-6.528 3.357-3.46 0-6.356-2.42-6.356-6.478 0-.825.215-1.928.784-3.411.082-.212.162-.406.237-.581l.144-.353c.983-2.29 5.132-10.985 7.078-14.808.056-.11.115-.224.175-.34.504-.98 1.15-2.016 1.884-2.822C13.253 1.48 14.47 1 16 1z" />
-        </svg>
-    )
+// Icon mapping for amenities
+const getAmenityIcon = (name: string) => {
+    const n = name.toLowerCase()
+    if (n.includes('wi-fi') || n.includes('wifi')) return <Wifi className="w-4 h-4" />
+    if (n.includes('tv') || n.includes('telewizor')) return <Tv className="w-4 h-4" />
+    if (n.includes('kawa') || n.includes('ekspres')) return <Coffee className="w-4 h-4" />
+    if (n.includes('klimatyzacja')) return <Wind className="w-4 h-4" />
+    if (n.includes('kuchnia') || n.includes('aneks')) return <Utensils className="w-4 h-4" />
+    if (n.includes('łóżko') || n.includes('materac')) return <Bed className="w-4 h-4" />
+    if (n.includes('prysznic')) return <ShowerHead className="w-4 h-4" />
+    if (n.includes('pralka')) return <WashingMachine className="w-4 h-4" />
+    if (n.includes('lodówka')) return <Refrigerator className="w-4 h-4" />
+    if (n.includes('ręczniki')) return <Waves className="w-4 h-4" />
+    if (n.includes('self check-in') || n.includes('klucze')) return <Key className="w-4 h-4" />
+    return <Square className="w-4 h-4" /> // Default
 }
 
-// ── Main component ────────────────────────────────────────────────────────────
 export function ApartamentDetail({ apartment: apt, others }: Props) {
-    const [activeImg, setActiveImg] = useState(0)
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = window.innerWidth * 0.7
+            scrollContainerRef.current.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth'
+            })
+        }
+    }
+
+    const headerLabelClass = "font-sans text-[16px] leading-[24px] text-[#0f677d] font-medium tracking-[-0.32px] mb-10 block text-left"
 
     return (
-        <main className="min-h-screen bg-background text-foreground font-sans antialiased">
+        <main className="min-h-screen bg-[#f9f6f3] text-foreground font-sans antialiased selection:bg-[#1f3a40]/10">
+            {/* ── 1. Navbar (Hero variant) ── */}
+            <Navbar variant="hero" activePath={`/apartament/${apt.id}`} />
 
-            {/* ── Top navigation ── */}
-            <nav className="flex items-center px-4 md:px-8 py-5 border-b border-foreground/15 sticky top-0 z-50 bg-background/95 backdrop-blur-sm">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-60 transition-opacity group">
-                    <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase text-foreground/50 group-hover:text-foreground transition-colors">
-                        ← Powrót
-                    </span>
-                </Link>
-                <Link href="/" className="absolute left-1/2 -translate-x-1/2 font-semibold text-lg tracking-tighter uppercase text-foreground flex items-start hover:opacity-60 transition-opacity">
-                    KOŁŁĄTAJA 23<sup className="text-[8px] ml-0.5 mt-1 font-bold">®</sup>
-                </Link>
-                <div className="ml-auto">
-                    <MobileMenu />
-                </div>
-            </nav>
+            {/* ── 2. Hero Section ── */}
+            <section className="relative w-full h-screen overflow-hidden bg-black z-0">
+                <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: `url('${apt.images[0]}')` }}
+                />
+                
+                <div className="absolute inset-0 bg-black/35 z-[1]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 z-[1]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] z-[1]" />
 
-            {/* ── Hero: title + main image ── */}
-            <div className="border-b border-foreground/15">
-                {/* Title row */}
-                <div className="px-4 md:px-8 pt-12 pb-8 flex flex-col md:flex-row justify-between md:items-end gap-6 border-b border-foreground/15">
-                    <div>
-                        <div className="flex items-center gap-3 mb-5">
-                            <div className="w-2 h-2 bg-foreground" />
-                            <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50">{apt.subtitle}</span>
-                        </div>
-                        <motion.h1
-                            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="text-4xl md:text-7xl lg:text-8xl font-semibold tracking-tighter uppercase leading-[1.05] text-foreground"
-                        >
-                            {apt.title}
-                        </motion.h1>
-                    </div>
-
-                    {/* Quick stats */}
-                    <motion.div
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
-                        className="flex gap-0 border border-foreground/15"
+                <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-6 text-center mt-6">
+                    <motion.span 
+                        initial={{ opacity: 0, y: 15 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        transition={{ duration: 0.8 }}
+                        className="text-[#f9f6f3]/80 font-sans text-[12px] font-medium tracking-[0.3em] uppercase mb-6"
                     >
-                        {[
-                            { label: "Goście", value: `${apt.guests} os.` },
-                            { label: "Pokoje", value: `${apt.rooms} pok.` },
-                            { label: "Metraż", value: `${apt.area} m²` },
-                            { label: "Piętro", value: apt.floor },
-                        ].map((s, i) => (
-                            <div key={s.label} className={`flex flex-col items-center justify-center px-4 py-3 gap-1 ${i < 3 ? "border-r border-foreground/15" : ""}`}>
-                                <span className="text-[8px] font-semibold tracking-widest uppercase text-foreground/40">{s.label}</span>
-                                <span className="text-sm font-semibold tracking-tighter uppercase text-foreground">{s.value}</span>
-                            </div>
-                        ))}
+                        {apt.subtitle}
+                    </motion.span>
+                    
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="text-[#f9f6f3] text-5xl md:text-[88px] font-serif font-medium leading-[1.1] text-balance"
+                        style={{ textTransform: "none" }}
+                    >
+                        {apt.title}
+                    </motion.h1>
+                    
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="mt-12 flex flex-col items-center gap-10"
+                    >
+                         <a href="#o-apartamencie" className="px-10 py-5 bg-[#f9f6f3] text-[#1f3a40] text-[10px] font-semibold tracking-widest uppercase hover:bg-[#a1826a] hover:text-[#f9f6f3] transition-all duration-300">
+                             Odkryj Wnętrze
+                         </a>
                     </motion.div>
                 </div>
+            </section>
 
-                {/* Image Gallery */}
-                <div
-                    className="flex flex-col md:grid md:grid-cols-[3fr_2fr]"
-                    style={{ height: "clamp(360px, 68vh, 760px)" }}
+            {/* ── 3. About Section (Parameters, Description, Booking Links) ── */}
+            <section id="o-apartamencie" className="max-w-[1440px] mx-auto px-6 md:px-12 py-24 lg:py-32 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+                <div className="lg:col-span-5 flex flex-col items-start border-t border-foreground/15 pt-8">
+                    <span className={headerLabelClass}>Przegląd</span>
+                    
+                    <ul className="flex flex-col w-full mb-12">
+                        <li className="flex justify-between items-center py-5 border-b border-foreground/5">
+                            <span className="font-sans text-[15px] text-foreground/60 w-1/3">Cena</span>
+                            <span className="font-serif text-[24px] text-[#1f3a40] font-medium text-right">{apt.price.weekday} PLN / noc</span>
+                        </li>
+                        <li className="flex justify-between items-center py-5 border-b border-foreground/5">
+                            <span className="font-sans text-[15px] text-foreground/60 w-1/3">Rozmiar</span>
+                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.area} m²</span>
+                        </li>
+                        <li className="flex justify-between items-center py-5 border-b border-foreground/5">
+                            <span className="font-sans text-[15px] text-foreground/60 w-1/3">Goście</span>
+                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.guests}</span>
+                        </li>
+                        <li className="flex justify-between items-center py-5 border-b border-foreground/5">
+                            <span className="font-sans text-[15px] text-foreground/60 w-1/3">Pokoje</span>
+                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.rooms}</span>
+                        </li>
+                        <li className="flex justify-between items-center py-5 border-b border-foreground/5">
+                            <span className="font-sans text-[15px] text-foreground/60 w-1/3">Piętro</span>
+                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.floor}</span>
+                        </li>
+                    </ul>
+
+                    <div className="flex flex-col sm:flex-row lg:flex-col w-full gap-4">
+                        <a 
+                            href={apt.booking.bookingUrl} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="flex items-center justify-center gap-4 bg-[#1f3a40] text-[#f9f6f3] px-10 py-5 hover:bg-[#a1826a] hover:scale-105 transition-all w-full"
+                        >
+                            <span className="font-sans text-[12px] font-semibold tracking-widest uppercase">Zarezerwuj w</span>
+                            <img src="/Loga/booking.svg" className="h-4 invert opacity-90" alt="Booking.com" />
+                        </a>
+                        <a 
+                            href={apt.booking.airbnbUrl} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="flex items-center justify-center gap-4 bg-transparent border border-[#1f3a40]/20 text-[#1f3a40] px-10 py-5 hover:border-[#a1826a] hover:text-[rgb(161,130,106)] hover:bg-transparent transition-all w-full"
+                        >
+                            <span className="font-sans text-[12px] font-semibold tracking-widest uppercase">Zarezerwuj w</span>
+                            <img src="/Loga/airbnb.svg" className="h-4 opacity-90" alt="Airbnb" />
+                        </a>
+                    </div>
+                </div>
+
+                <div className="lg:col-span-7 flex flex-col pt-8 border-t border-foreground/15">
+                    <span className={headerLabelClass}>Opis Lokalu</span>
+                    
+                    <h2 className="font-serif text-3xl md:text-5xl text-[#1f3a40] tracking-tight mb-8">
+                        Odpocznij w luksusie
+                    </h2>
+                    <div className="space-y-6 text-[15px] leading-relaxed text-foreground/60 text-balance max-w-2xl">
+                        {apt.longDescription.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
+                    </div>
+                </div>
+            </section>
+
+            <SectionSeparator />
+
+            {/* ── 4. Gallery Carousel ── */}
+            <section className="w-full bg-[#f9f6f3] py-24 lg:py-32 text-foreground overflow-hidden">
+                <div className="max-w-[1440px] mx-auto px-6 md:px-12 mb-16 flex justify-between items-end">
+                    <div className="flex flex-col">
+                        <span className={headerLabelClass.replace('mb-10', 'mb-4')}>Wnętrza</span>
+                        <h2 className="font-serif text-4xl lg:text-[56px] tracking-tight text-[#1f3a40]">Galeria</h2>
+                    </div>
+                    
+                    {/* Replaced Text with Reviews-style Navigation */}
+                    <div className="flex items-center gap-4 hidden md:flex">
+                        <button 
+                            onClick={() => scroll('left')}
+                            className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-colors"
+                        >
+                            <ArrowLeft className="w-5 h-5 stroke-[1.2]" />
+                        </button>
+                        <button 
+                            onClick={() => scroll('right')}
+                            className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-colors"
+                        >
+                            <ArrowRight className="w-5 h-5 stroke-[1.2]" />
+                        </button>
+                    </div>
+                </div>
+                
+                {/* Scroll Container */}
+                <div 
+                    ref={scrollContainerRef}
+                    className="flex gap-6 overflow-x-auto px-6 md:px-12 pb-8 scrollbar-hide snap-x snap-mandatory [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}
                 >
-                    {/* ── LEFT: Main big image ── */}
-                    <div
-                        className="relative overflow-hidden border-b md:border-b-0 md:border-r border-foreground/15 cursor-pointer"
-                        style={{ minHeight: "240px" }}
-                    >
-                        <img
-                            src={apt.images[activeImg]}
-                            alt={apt.title}
-                            className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500"
-                            loading="eager"
-                        />
-                    </div>
-
-                    {/* ── RIGHT: 3 thumbnails stacked ── */}
-                    <div className="grid grid-rows-3 h-full">
-                        {apt.images.slice(1).map((img, idx) => (
-                            <div
-                                key={img}
-                                onClick={() => setActiveImg(idx + 1)}
-                                className={`relative overflow-hidden cursor-pointer border-b last:border-b-0 border-foreground/15 transition-opacity duration-200
-                                    ${activeImg === idx + 1 ? "opacity-50" : "hover:opacity-80"}`}
-                            >
-                                <img
-                                    src={img}
-                                    alt={`${apt.title} — zdjęcie ${idx + 2}`}
-                                    className="absolute inset-0 w-full h-full object-cover object-center"
-                                    loading="lazy"
-                                />
-                                {/* Overlay indicator */}
-                                {activeImg === idx + 1 && (
-                                    <div className="absolute inset-0 border-2 border-foreground pointer-events-none" />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Gallery dots (mobile indicator) */}
-                <div className="flex justify-center gap-2 py-3 md:hidden border-t border-foreground/10">
-                    {apt.images.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setActiveImg(i)}
-                            className={`h-1.5 transition-all ${activeImg === i ? "bg-foreground w-4" : "bg-foreground/20 w-1.5"}`}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            {/* ── Description + Amenities + Booking ── */}
-            <div className="flex flex-col lg:grid lg:grid-cols-2 border-b border-foreground/15">
-
-                {/* Left: Description */}
-                <div className="px-4 md:px-8 py-12 flex flex-col gap-8 border-b lg:border-b-0 lg:border-r border-foreground/15">
-                    <div>
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 mb-4 block">O Apartamencie</span>
-                        <div className="space-y-4">
-                            {apt.longDescription.split("\n\n").map((para, i) => (
-                                <p key={i} className="text-sm text-foreground/80 leading-relaxed">
-                                    {para}
-                                </p>
-                            ))}
+                    {apt.images.map((img, i) => (
+                        <div key={i} className="min-w-[85vw] md:min-w-[65vw] lg:min-w-[900px] aspect-[4/3] md:h-[600px] shrink-0 snap-center relative overflow-hidden bg-foreground/5 group">
+                            <img 
+                                src={img} 
+                                alt={`${apt.title} - Zdjęcie ${i+1}`} 
+                                className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]" 
+                                loading={i === 0 ? "eager" : "lazy"}
+                            />
                         </div>
-                    </div>
-
-                    {/* Amenities */}
-                    <div>
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 mb-4 block">Wyposażenie</span>
-                        <div className="flex flex-col">
-                            {apt.amenities.map((item, idx) => (
-                                <div key={item} className="flex items-center gap-4 py-3 border-b border-foreground/8 last:border-b-0">
-                                    <span className="text-[9px] font-semibold tracking-widest text-foreground/30 w-4 shrink-0">
-                                        {String(idx + 1).padStart(2, "0")}
-                                    </span>
-                                    <span className="text-[11px] font-semibold tracking-widest uppercase text-foreground">
-                                        {item}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Right: Pricing + Booking CTA */}
-                <div className="px-4 md:px-8 py-12 flex flex-col gap-10">
-                    {/* Pricing */}
-                    <div>
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 mb-6 block">Cennik</span>
-                        <div className="flex flex-col border border-foreground/15">
-                            <div className="flex justify-between items-center px-6 py-5 border-b border-foreground/15">
-                                <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/60">Noc (pon–czw)</span>
-                                <span className="text-2xl font-semibold tracking-tighter text-foreground">
-                                    {apt.price.weekday} <span className="text-sm text-foreground/50">PLN</span>
-                                </span>
-                            </div>
-                            <div className="flex justify-between items-center px-6 py-5">
-                                <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/60">Noc (pt–nd)</span>
-                                <span className="text-2xl font-semibold tracking-tighter text-foreground">
-                                    {apt.price.weekend} <span className="text-sm text-foreground/50">PLN</span>
-                                </span>
-                            </div>
-                        </div>
-                        <p className="text-[9px] font-semibold tracking-widest uppercase text-foreground/30 mt-3">
-                            * Ceny orientacyjne. Finalna cena zależy od platformy rezerwacyjnej i długości pobytu.
-                        </p>
-                    </div>
-
-                    {/* Booking CTA */}
-                    <div className="flex flex-col gap-4">
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 mb-2 block">Zarezerwuj</span>
-
-                        <a
-                            href={apt.booking.bookingUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between px-6 py-5 bg-foreground text-background hover:opacity-90 transition-opacity group"
-                        >
-                            <div className="flex flex-col gap-0.5">
-                                <span className="text-[10px] font-semibold tracking-widest uppercase text-background/60">Rezerwuj przez</span>
-                                <span className="text-sm font-semibold tracking-widest uppercase text-background">Booking.com</span>
-                            </div>
-                            <span className="text-background/60 group-hover:text-background transition-colors text-lg">→</span>
-                        </a>
-
-                        <a
-                            href={apt.booking.airbnbUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between px-6 py-5 border border-foreground/20 hover:border-foreground/60 transition-colors group"
-                        >
-                            <div className="flex items-center gap-3">
-                                <AirbnbIcon />
-                                <div className="flex flex-col gap-0.5">
-                                    <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50">Rezerwuj przez</span>
-                                    <span className="text-sm font-semibold tracking-widest uppercase text-foreground">Airbnb</span>
-                                </div>
-                            </div>
-                            <span className="text-foreground/40 group-hover:text-foreground transition-colors text-lg">→</span>
-                        </a>
-
-                        <a
-                            href="/kontakt"
-                            className="flex items-center justify-center px-6 py-4 border border-foreground/10 hover:border-foreground/30 transition-colors"
-                        >
-                            <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 hover:text-foreground transition-colors">
-                                Masz pytania? Napisz do nas →
-                            </span>
-                        </a>
-                    </div>
-
-                    {/* Location mini */}
-                    <div>
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50 mb-4 block">Lokalizacja</span>
-                        <div className="border border-foreground/15 overflow-hidden" style={{ height: "200px" }}>
-                            <LeafletMap />
-                        </div>
-                        <p className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40 mt-2">
-                            UL. KOŁŁĄTAJA 23 · WROCŁAW · 400M DO DWORCA PKP
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* ── Other apartments ── */}
-            <section className="px-4 md:px-8 py-16 border-b border-foreground/15">
-                <div className="flex justify-between items-end mb-10">
-                    <div>
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-2 h-2 bg-foreground" />
-                            <span className="text-[10px] font-semibold tracking-widest uppercase text-foreground/50">Pozostałe lokale</span>
-                        </div>
-                        <h2 className="text-3xl md:text-5xl font-semibold tracking-tighter uppercase text-foreground leading-tight">
-                            INNE APARTAMENTY
-                        </h2>
-                    </div>
-                    <Link href="/" className="text-[10px] font-semibold tracking-widest uppercase text-foreground border-b border-foreground pb-0.5 hover:opacity-50 transition-opacity whitespace-nowrap">
-                        WSZYSTKIE →
-                    </Link>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-foreground/15">
-                    {others.slice(0, 3).map((other, idx) => (
-                        <Link
-                            key={other.id}
-                            href={`/apartament/${other.id}`}
-                            className={`group flex flex-col border-b md:border-b-0 ${idx < 2 ? "md:border-r" : ""} border-foreground/15 hover:bg-foreground/3 transition-colors`}
-                        >
-                            <div className="w-full overflow-hidden" style={{ height: "200px" }}>
-                                <img
-                                    src={other.images[0]}
-                                    alt={other.title}
-                                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                                    loading="lazy"
-                                />
-                            </div>
-                            <div className="p-5 flex flex-col gap-2 border-t border-foreground/15">
-                                <span className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">{other.subtitle}</span>
-                                <h3 className="text-lg font-semibold tracking-tighter uppercase text-foreground">{other.title}</h3>
-                                <div className="flex justify-between items-center mt-1">
-                                    <span className="text-[9px] font-semibold tracking-widest uppercase text-foreground/40">{other.guests} os. · {other.area} m²</span>
-                                    <span className="text-[9px] font-semibold tracking-widest uppercase text-foreground border-b border-foreground pb-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        WIĘCEJ →
-                                    </span>
-                                </div>
-                            </div>
-                        </Link>
                     ))}
                 </div>
             </section>
 
-            {/* ── Footer mini ── */}
-            <div className="flex justify-between items-center px-4 md:px-8 py-5 bg-foreground text-background">
-                <span className="text-[10px] font-semibold tracking-widest uppercase text-background/40">
-                    © 2026 KOŁŁĄTAJA 23 · WROCŁAW
-                </span>
-                <div className="flex items-center gap-6">
-                    <a href="https://booking.com" target="_blank" rel="noopener noreferrer" className="text-[9px] font-semibold tracking-widest uppercase text-background/40 hover:text-background transition-colors">Booking.com</a>
-                    <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="text-[9px] font-semibold tracking-widest uppercase text-background/40 hover:text-background transition-colors">Airbnb</a>
+            <SectionSeparator />
+
+            {/* ── 5. Amenities ── */}
+            <section className="max-w-[1440px] mx-auto px-6 md:px-12 py-24 lg:py-32">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+                    <div className="lg:col-span-4 flex flex-col gap-4">
+                        <span className={headerLabelClass.replace('mb-10', 'mb-2')}>Detale</span>
+                        <h2 className="font-serif text-4xl lg:text-[56px] tracking-tight text-[#1f3a40]">Wyposażenie</h2>
+                    </div>
+                    <div className="lg:col-span-8 flex flex-col">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 pt-4">
+                            {apt.amenities.map(a => (
+                                <div key={a} className="flex items-center gap-4 py-2 border-b border-foreground/5">
+                                    <div className="text-[#0f677d]">
+                                        {getAmenityIcon(a)}
+                                    </div>
+                                    <span className="font-sans text-[15px] text-foreground/80">{a}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <SectionSeparator />
+
+            {/* ── 6. FAQ from Main Page ── */}
+            <FAQ />
+
+            <SectionSeparator />
+
+            {/* ── 7. Footer from Main Page ── */}
+            <Footer />
+
         </main>
     )
 }

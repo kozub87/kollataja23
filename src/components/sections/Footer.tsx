@@ -1,120 +1,111 @@
 "use client"
-import { motion } from "framer-motion"
-
+import { Facebook, Instagram } from "lucide-react"
+import { RollingLink } from "@/components/ui/RollingLink"
 
 export function Footer() {
     return (
-        /* h-dvh = dynamic viewport height (accounts for mobile browser chrome) */
-        <footer className="h-dvh min-h-[600px] bg-foreground text-background flex flex-col overflow-hidden">
+        <footer className="relative w-full bg-[#f9f6f3] text-foreground flex flex-col items-center pt-24 pb-8 overflow-visible">
+            
+            {/* Blinds Shadow Overlay */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.05] bg-[url('/shadow-blinds.png')] bg-cover bg-center mix-blend-multiply z-0" />
 
-            {/* ── Top label bar ── */}
-            <div className="flex justify-between items-center px-4 md:px-8 py-4 border-b border-background/10 shrink-0">
-                <div className="flex items-center gap-3">
-                    <div className="w-2.5 h-2.5 bg-background" />
-                    <span className="text-xs font-semibold tracking-widest uppercase text-background/60">Kontakt</span>
+            {/* Content Container */}
+            <div className="relative z-10 w-full max-w-[1440px] px-6 md:px-12 flex flex-col items-center">
+                
+                {/* ── Main Footer Title (Now Logo) ── */}
+                <div className="text-center mb-20 flex flex-col items-center">
+                    <img 
+                        src="/Loga/kollataja_logo.svg" 
+                        alt="Kołłątaja 23 Logo" 
+                        className="h-10 md:h-12 w-auto mb-4"
+                    />
+                    <p className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">
+                        Boutique Apartments
+                    </p>
                 </div>
-                <span className="text-[10px] font-semibold tracking-widest uppercase text-background/30">
-                    51.1074° N · 17.0385° E
-                </span>
-            </div>
 
-            {/* ── Main CTA — flex-1 takes all remaining space ── */}
-            <div className="flex-1 flex flex-col justify-center px-4 md:px-8 py-6 min-h-0 border-b border-background/10">
-                <motion.h2
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.65, ease: "easeOut" }}
-                    className="text-[13vw] md:text-[11vw] lg:text-[9.5vw] font-semibold tracking-tighter uppercase leading-[1.05] text-background"
-                >
-                    ZAREZERWUJ<br />SWÓJ<br />POBYT.
-                </motion.h2>
-
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                    className="flex flex-row items-center gap-6 mt-8"
-                >
-                    <a
-                        href="https://booking.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs font-semibold tracking-widest uppercase text-background border-b border-background pb-0.5 hover:opacity-60 transition-opacity"
-                    >
-                        Booking.com →
-                    </a>
-                    <span className="text-background/20">·</span>
-                    <a
-                        href="https://airbnb.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs font-semibold tracking-widest uppercase text-background/50 hover:text-background transition-colors"
-                    >
-                        Airbnb →
-                    </a>
-                </motion.div>
-            </div>
-
-            {/* ── Bottom info ── */}
-            {/* DESKTOP: 3-column grid */}
-            <div className="hidden md:grid md:grid-cols-3 shrink-0 border-b border-background/10">
-                <div className="px-8 py-7 border-r border-background/10 flex flex-col gap-2">
-                    <div className="font-semibold text-lg tracking-tighter uppercase text-background flex items-start">
-                        KOŁŁĄTAJA 23<sup className="text-[9px] ml-0.5 mt-1">®</sup>
+                {/* ── Navigation Grid ── */}
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-24 text-[#1f3a40]">
+                    
+                    {/* Col 1 */}
+                    <div className="flex flex-col gap-6">
+                        <span className="font-sans text-[16px] leading-[18px] tracking-normal text-[#a1826a] font-normal">Nawigacja</span>
+                        <div className="flex flex-col gap-3">
+                            <RollingLink href="/">Strona Główna</RollingLink>
+                            <RollingLink href="/#apartamenty">Apartamenty</RollingLink>
+                            <RollingLink href="/o-nas">O nas</RollingLink>
+                            <RollingLink href="/#lokalizacja">Lokalizacja</RollingLink>
+                            <RollingLink href="/#opinie">Opinie</RollingLink>
+                            <RollingLink href="/kontakt">Kontakt</RollingLink>
+                            <RollingLink href="/404" className="underline opacity-30">Test 404</RollingLink>
+                        </div>
                     </div>
-                    <p className="text-[9px] font-semibold tracking-widest uppercase text-background/30">Wrocław, Polska</p>
-                </div>
-                <div className="px-8 py-7 border-r border-background/10 flex flex-col gap-2.5">
-                    {[
-                        { label: "Apartamenty", href: "/#apartamenty" },
-                        { label: "Lokalizacja", href: "/#lokalizacja" },
-                        { label: "Opinie", href: "/#opinie" },
-                        { label: "O nas", href: "/o-nas" },
-                        { label: "Kontakt", href: "/kontakt" },
-                    ].map(link => (
-                        <a key={link.label} href={link.href} className="text-[10px] font-semibold tracking-[0.18em] uppercase text-background/55 hover:text-background transition-colors flex items-center justify-between group">
-                            {link.label}
-                            <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-                        </a>
-                    ))}
-                </div>
-                <div className="px-8 py-7 flex flex-col gap-3">
-                    <a href="mailto:kontakt@kollataja23.pl" className="text-[10px] font-semibold tracking-[0.15em] uppercase text-background/55 hover:text-background transition-colors">kontakt@kollataja23.pl</a>
-                    <a href="tel:+48123456789" className="text-[10px] font-semibold tracking-[0.15em] uppercase text-background/55 hover:text-background transition-colors">+48 123 456 789</a>
-                    <div className="flex gap-3 pt-1">
-                        <a href="https://booking.com" target="_blank" rel="noopener noreferrer" className="text-[9px] font-semibold tracking-widest uppercase text-background/35 border border-background/20 px-2.5 py-1 hover:border-background/50 transition-all">Booking</a>
-                        <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="text-[9px] font-semibold tracking-widest uppercase text-background/35 border border-background/20 px-2.5 py-1 hover:border-background/50 transition-all">Airbnb</a>
-                    </div>
-                </div>
-            </div>
 
-            {/* MOBILE: compact single row */}
-            <div className="md:hidden shrink-0 flex justify-between items-start px-4 py-5 border-b border-background/10 gap-4">
-                <div className="flex flex-col gap-1.5">
-                    <div className="font-semibold text-base tracking-tighter uppercase text-background flex items-start">
-                        KOŁŁĄTAJA 23<sup className="text-[8px] ml-0.5 mt-0.5">®</sup>
+                    {/* Col 2 */}
+                    <div className="flex flex-col gap-6">
+                        <span className="font-sans text-[16px] leading-[18px] tracking-normal text-[#a1826a] font-normal">Nasze Apartamenty</span>
+                        <div className="flex flex-col gap-3">
+                            <RollingLink href="/apartament/1">Apartament Nr 1 — Studio</RollingLink>
+                            <RollingLink href="/apartament/2">Apartament Nr 2 — Salon</RollingLink>
+                            <RollingLink href="/apartament/3">Apartament Nr 3 — Historia</RollingLink>
+                            <RollingLink href="/apartament/4">Apartament Nr 4 — Flagowy</RollingLink>
+                            <RollingLink href="/apartament/5">Apartament Nr 5 — Kameralny</RollingLink>
+                        </div>
                     </div>
-                    <p className="text-[8px] font-semibold tracking-widest uppercase text-background/30">Wrocław, Polska</p>
-                </div>
-                <div className="flex flex-col items-end gap-1.5">
-                    <a href="mailto:kontakt@kollataja23.pl" className="text-[9px] font-semibold tracking-[0.12em] uppercase text-background/55">kontakt@kollataja23.pl</a>
-                    <div className="flex gap-2 mt-1">
-                        <a href="https://booking.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-semibold tracking-widest uppercase text-background/35 border border-background/20 px-2 py-1">Booking</a>
-                        <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-semibold tracking-widest uppercase text-background/35 border border-background/20 px-2 py-1">Airbnb</a>
-                    </div>
-                </div>
-            </div>
 
-            {/* ── Copyright strip ── */}
-            <div className="flex justify-between items-center px-4 md:px-8 py-3 shrink-0">
-                <span className="text-[7px] md:text-[8px] font-semibold tracking-widest uppercase text-background/20">
-                    © 2026 Kołłątaja 23. Wszelkie prawa zastrzeżone.
-                </span>
-                <span className="text-[7px] md:text-[8px] font-semibold tracking-widest uppercase text-background/20">
-                    Wrocław, Polska
-                </span>
+                    {/* Col 3 */}
+                    <div className="flex flex-col gap-6">
+                        <span className="font-sans text-[16px] leading-[18px] tracking-normal text-[#a1826a] font-normal">Kontakt</span>
+                        <div className="flex flex-col gap-3">
+                            <RollingLink href="tel:+48123456789">+48 123 456 789</RollingLink>
+                            <RollingLink href="mailto:kontakt@kollataja23.pl">kontakt@kollataja23.pl</RollingLink>
+                            <span className="text-[14px] font-medium text-foreground/80 leading-relaxed">
+                                ul. Kołłątaja 23<br/>
+                                50-007 Wrocław
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Col 4 */}
+                    <div className="flex flex-col gap-6">
+                        <span className="font-sans text-[16px] leading-[18px] tracking-normal text-[#a1826a] font-normal">Bądźmy w kontakcie</span>
+                        
+                        <div className="flex flex-col gap-6">
+                            {/* Social Icons */}
+                            <div className="flex items-center gap-5">
+                                <a href="#" className="text-foreground/60 hover:text-[#0f677d] transition-colors">
+                                    <Facebook className="w-[18px] h-[18px] stroke-[1.5]" />
+                                </a>
+                                <a href="#" className="text-foreground/60 hover:text-[#0f677d] transition-colors">
+                                    <Instagram className="w-[18px] h-[18px] stroke-[1.5]" />
+                                </a>
+                            </div>
+                            
+                            <span className="font-sans text-[16px] leading-[18px] text-[#a1826a] font-normal">Rezerwuj bezpośrednio</span>
+                        </div>
+                        {/* Partner Logos */}
+                        <div className="flex items-center gap-6">
+                            <a href="https://booking.com" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                                <img src="/Loga/booking.svg" alt="Booking.com" className="h-[22px] w-auto mix-blend-multiply" />
+                            </a>
+                            <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                                <img src="/Loga/airbnb.svg" alt="Airbnb" className="h-[22px] w-auto mix-blend-multiply" />
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                {/* ── Bottom Line ── */}
+                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-foreground/10">
+                    <span className="text-[12px] font-medium text-foreground/50">
+                        Made by Kołłątaja 23 Team
+                    </span>
+                    <span className="text-[12px] font-medium text-foreground/50">
+                        2026 © Wszelkie prawa zastrzeżone
+                    </span>
+                </div>
+
             </div>
         </footer>
     )
