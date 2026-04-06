@@ -70,10 +70,10 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
     }
 
     // Refined Label Class based on user feedback
-    const headerLabelClass = "font-sans text-[16px] leading-[24px] text-[#0f677d] font-light tracking-[-0.32px] mb-10 block text-left"
+    const headerLabelClass = "font-sans text-[16px] leading-[24px] text-primary font-normal tracking-[-0.32px] mb-10 block text-left transition-colors"
 
     return (
-        <main className="min-h-screen bg-[#f9f6f3] text-foreground font-sans antialiased selection:bg-[#1f3a40]/10">
+        <main className="min-h-screen bg-background text-foreground font-sans antialiased selection:bg-primary/10 transition-colors duration-500">
             {/* ── 1. Navbar (Hero variant) ── */}
             <Navbar variant="hero" activePath={`/apartament/${apt.id}`} />
 
@@ -93,7 +93,7 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                         initial={{ opacity: 0, y: 15 }} 
                         animate={{ opacity: 1, y: 0 }} 
                         transition={{ duration: 0.8 }}
-                        className="text-[#f9f6f3]/80 font-sans text-[12px] font-medium tracking-[0.3em] uppercase mb-6"
+                        className="text-white/80 font-sans text-[12px] font-medium tracking-[0.3em] uppercase mb-6"
                     >
                         {apt.subtitle}
                     </motion.span>
@@ -102,7 +102,7 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                         initial={{ opacity: 0, y: 30 }} 
                         animate={{ opacity: 1, y: 0 }} 
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-[#f9f6f3] text-5xl md:text-[88px] font-serif font-medium leading-[1.1] text-balance"
+                        className="text-white text-5xl md:text-[88px] font-serif font-medium leading-[1.1] text-balance"
                         style={{ textTransform: "none" }}
                     >
                         {apt.title}
@@ -114,9 +114,9 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                         transition={{ duration: 0.8, delay: 0.4 }}
                         className="mt-12 flex flex-col items-center gap-10"
                     >
-                         <a href="#o-apartamencie" className="px-10 py-5 bg-[#f9f6f3] text-[#1f3a40] text-[10px] font-semibold tracking-widest uppercase hover:bg-[#a1826a] hover:text-[#f9f6f3] transition-all duration-300">
-                             Odkryj Wnętrze
-                         </a>
+                          <a href="#o-apartamencie" className="px-10 py-5 bg-background text-foreground border border-foreground/10 text-[10px] font-semibold tracking-widest uppercase hover:bg-primary hover:text-white hover:border-primary transition-all duration-300">
+                              Odkryj Wnętrze
+                          </a>
                     </motion.div>
                 </div>
             </section>
@@ -130,23 +130,23 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                     <ul className="flex flex-col w-full mb-12">
                         <li className="flex justify-between items-center py-5 border-b border-foreground/5">
                             <span className="font-sans text-[15px] text-foreground/60 w-1/3">Cena</span>
-                            <span className="font-serif text-[24px] text-[#1f3a40] font-medium text-right">{apt.price.weekday} PLN / noc</span>
+                            <span className="font-serif text-[24px] text-foreground font-medium text-right">{apt.price.weekday} PLN / noc</span>
                         </li>
                         <li className="flex justify-between items-center py-5 border-b border-foreground/5">
                             <span className="font-sans text-[15px] text-foreground/60 w-1/3">Rozmiar</span>
-                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.area} m²</span>
+                            <span className="font-serif text-[18px] text-foreground text-right">{apt.area} m²</span>
                         </li>
                         <li className="flex justify-between items-center py-5 border-b border-foreground/5">
                             <span className="font-sans text-[15px] text-foreground/60 w-1/3">Goście</span>
-                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.guests}</span>
+                            <span className="font-serif text-[18px] text-foreground text-right">{apt.guests}</span>
                         </li>
                         <li className="flex justify-between items-center py-5 border-b border-foreground/5">
                             <span className="font-sans text-[15px] text-foreground/60 w-1/3">Pokoje</span>
-                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.rooms}</span>
+                            <span className="font-serif text-[18px] text-foreground text-right">{apt.rooms}</span>
                         </li>
                         <li className="flex justify-between items-center py-5 border-b border-foreground/5">
                             <span className="font-sans text-[15px] text-foreground/60 w-1/3">Piętro</span>
-                            <span className="font-serif text-[18px] text-[#1f3a40] text-right">{apt.floor}</span>
+                            <span className="font-serif text-[18px] text-foreground text-right">{apt.floor}</span>
                         </li>
                     </ul>
 
@@ -155,16 +155,16 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                             href={apt.booking.bookingUrl} 
                             target="_blank" 
                             rel="noreferrer"
-                            className="flex items-center justify-center gap-4 bg-[#1f3a40] text-[#f9f6f3] px-10 py-5 hover:bg-[#a1826a] hover:scale-105 transition-all w-full"
+                            className="flex items-center justify-center gap-4 bg-background text-foreground border border-foreground/10 px-10 py-5 hover:bg-primary hover:text-white transition-all w-full"
                         >
                             <span className="font-sans text-[12px] font-semibold tracking-widest uppercase">Zarezerwuj w</span>
-                            <img src="/Loga/booking.svg" className="h-4 invert opacity-90" alt="Booking.com" />
+                            <img src="/Loga/booking.svg" className="h-4 dark:invert opacity-90" alt="Booking.com" />
                         </a>
                         <a 
                             href={apt.booking.airbnbUrl} 
                             target="_blank" 
                             rel="noreferrer"
-                            className="flex items-center justify-center gap-4 bg-transparent border border-[#1f3a40]/20 text-[#1f3a40] px-10 py-5 hover:border-[#a1826a] hover:text-[rgb(161,130,106)] hover:bg-transparent transition-all w-full"
+                            className="flex items-center justify-center gap-4 bg-transparent border border-foreground/20 text-foreground px-10 py-5 hover:border-primary hover:text-primary hover:bg-transparent transition-all w-full"
                         >
                             <span className="font-sans text-[12px] font-semibold tracking-widest uppercase">Zarezerwuj w</span>
                             <img src="/Loga/airbnb.svg" className="h-4 opacity-90" alt="Airbnb" />
@@ -175,7 +175,7 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                 <div className="lg:col-span-7 flex flex-col pt-8 mt-0 border-t border-foreground/15">
                     <span className={headerLabelClass}>Opis Lokalu</span>
                     
-                    <h2 className="font-serif text-3xl md:text-5xl text-[#1f3a40] tracking-tight mb-8">
+                    <h2 className="font-serif text-3xl md:text-5xl text-foreground tracking-tight mb-8">
                         Odpocznij w luksusie
                     </h2>
                     <div className="space-y-6 text-[15px] leading-relaxed text-foreground/60 text-balance max-w-2xl">
@@ -187,10 +187,10 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
             <SectionSeparator />
 
             {/* ── 4. Gallery Carousel ── */}
-            <section className="w-full bg-[#f9f6f3] py-24 lg:py-32 text-foreground overflow-hidden">
+            <section className="w-full bg-background py-24 lg:py-32 text-foreground overflow-hidden transition-colors duration-500">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-12 mb-12 flex flex-col items-center text-center">
                     <span className={headerLabelClass.replace('mb-10', 'mb-4').replace('text-left', 'text-center')}>Wnętrza</span>
-                    <h2 className="font-serif text-4xl lg:text-[72px] tracking-tight text-[#1f3a40] mb-12">Galeria</h2>
+                    <h2 className="font-serif text-4xl lg:text-[72px] tracking-tight text-foreground mb-12 transition-colors">Galeria</h2>
                 </div>
                 
                 {/* Scroll Container */}
@@ -214,13 +214,13 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                 <div className="flex items-center justify-center gap-4 mt-8">
                     <button 
                         onClick={() => scroll('left')}
-                        className="w-[52px] h-[52px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-all hover:scale-105"
+                        className="w-[52px] h-[52px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-primary hover:border-primary/40 transition-all hover:scale-105"
                     >
                         <ArrowLeft className="w-5 h-5 stroke-[1.2]" />
                     </button>
                     <button 
                         onClick={() => scroll('right')}
-                        className="w-[52px] h-[52px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-all hover:scale-105"
+                        className="w-[52px] h-[52px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-primary hover:border-primary/40 transition-all hover:scale-105"
                     >
                         <ArrowRight className="w-5 h-5 stroke-[1.2]" />
                     </button>
@@ -234,16 +234,16 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
                     <div className="lg:col-span-4 flex flex-col gap-4">
                         <span className={headerLabelClass.replace('mb-10', 'mb-2')}>Detale</span>
-                        <h2 className="font-serif text-4xl lg:text-[56px] tracking-tight text-[#1f3a40]">Wyposażenie</h2>
+                        <h2 className="font-serif text-4xl lg:text-[56px] tracking-tight text-foreground transition-colors">Wyposażenie</h2>
                     </div>
                     <div className="lg:col-span-8 flex flex-col">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-12 pt-4">
                             {apt.amenities.map(a => (
                                 <div key={a} className="flex items-center gap-5 py-4 border-b border-foreground/5">
-                                    <div className="text-[#0f677d]">
+                                    <div className="text-primary transition-colors">
                                         {getAmenityIcon(a)}
                                     </div>
-                                    <span className="font-sans text-[15px] text-[#1f3a40] font-normal">{a}</span>
+                                    <span className="font-sans text-[15px] text-foreground font-normal transition-colors">{a}</span>
                                 </div>
                             ))}
                         </div>
@@ -256,9 +256,6 @@ export function ApartamentDetail({ apartment: apt, others }: Props) {
             {/* ── 6. FAQ from Main Page ── */}
             <FAQ />
 
-            <SectionSeparator />
-
-            {/* ── 7. Footer from Main Page ── */}
             <Footer />
 
         </main>

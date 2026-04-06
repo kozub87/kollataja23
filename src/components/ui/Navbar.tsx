@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import Link from "next/link"
 import { MobileMenu } from "./MobileMenu"
 import { RollingLink } from "./RollingLink"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 interface NavbarProps {
     variant?: "hero" | "subpage"
@@ -16,14 +17,22 @@ export function Navbar({ variant = "hero", activePath = "/" }: NavbarProps) {
     const [hidden, setHidden] = useState(false)
     const [isOverHero, setIsOverHero] = useState(variant === "hero")
     const prevScrollY = useRef(0)
+    const isInitial = useRef(true)
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            isInitial.current = false
+        }, 2000)
+        return () => clearTimeout(timer)
+    }, [])
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = prevScrollY.current
         
         // Zmiana motywu w zależności od pozycji względem Hero (100vh)
         if (variant === "hero") {
-            // Próg 100vh minus wysokość navbaru (96px)
-            setIsOverHero(latest < window.innerHeight - 96)
+            // Próg 100vh minus wysokość navbaru (64px)
+            setIsOverHero(latest < window.innerHeight - 64)
         } else {
             setIsOverHero(false)
         }
@@ -42,34 +51,40 @@ export function Navbar({ variant = "hero", activePath = "/" }: NavbarProps) {
 
     return (
         <motion.nav
-            variants={{
-                visible: { y: 0 },
-                hidden: { y: "-100%" },
+            initial={{ y: "-100%", opacity: 0 }}
+            animate={{ 
+                y: hidden ? "-100%" : 0,
+                opacity: hidden ? 0 : 1 
             }}
-            animate={hidden ? "hidden" : "visible"}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
+            transition={{ 
+                duration: isInitial.current ? 1.6 : 0.5, 
+                delay: isInitial.current ? 0.5 : 0, 
+                ease: [0.16, 1, 0.3, 1] 
+            }}
             className={`fixed top-0 z-50 w-full transition-all duration-500 
                 ${isOverHero 
-                    ? "bg-transparent text-[#f9f6f3] border-transparent" 
-                    : "bg-background/80 backdrop-blur-lg text-[#1f3a40] border-b border-foreground/5 shadow-premium"
+                    ? "bg-transparent text-white border-transparent" 
+                    : "bg-background/80 backdrop-blur-lg text-foreground border-b border-foreground/5 shadow-premium"
                 }`}
         >
-            <div className="w-full max-w-[1440px] mx-auto flex items-center justify-between h-24 px-12 relative">
+            <div className="w-full max-w-[1440px] mx-auto flex items-center justify-between h-16 px-6 lg:px-12 relative">
                 {/* ── LEFT SLOT: Navigation Links ── */}
                 <div className="flex-1 flex items-center">
+                    <div className="lg:hidden">
+                        <ThemeToggle isOverHero={isOverHero} />
+                    </div>
                     <div className="hidden lg:flex items-center gap-8">
                         <RollingLink href="/">Home</RollingLink>
                         <RollingLink href="/#apartamenty">Apartamenty</RollingLink>
                         <RollingLink href="/#galeria">Galeria</RollingLink>
                         <RollingLink href="/o-nas">O nas</RollingLink>
-                        <RollingLink href="/kontakt">Kontakt</RollingLink>
                     </div>
                 </div>
 
                 {/* ── CENTER SLOT: Logo ── */}
                 <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex items-center group transition-opacity hover:opacity-80">
                     <div 
-                        className="h-16 w-44 bg-current" 
+                        className="h-12 w-36 bg-current" 
                         style={{ 
                             maskImage: "url('/Loga/kollataja_logo.svg')", 
                             maskRepeat: "no-repeat", 

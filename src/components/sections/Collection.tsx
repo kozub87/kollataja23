@@ -1,5 +1,7 @@
 "use client"
-import { motion } from "framer-motion"
+"use client"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 import { RollingLink } from "@/components/ui/RollingLink"
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -64,25 +66,25 @@ function ApartmentCard({ apt, isFullWidth }: { apt: Apartment, isFullWidth?: boo
                 style={{ backgroundImage: `url('${apt.image}')` }}
             />
             {/* Gradient Overlay for text readability */}
-            <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-[#101010]/95 via-[#101010]/40 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
             
             {/* Text Overlay */}
             <div className="absolute bottom-0 left-0 w-full p-6 lg:p-10 flex flex-col justify-end items-start z-20">
-                <h3 className="font-serif font-normal text-[32px] md:text-[40px] leading-[1.1] tracking-[-0.02em] text-left text-[#f9f6f3] mb-0 drop-shadow-md">
+                <h3 className="font-serif font-normal text-[32px] md:text-[40px] leading-[1.1] tracking-[-0.02em] text-left text-white mb-0 drop-shadow-md">
                     {apt.title}
                 </h3>
                 
                 {/* Reveal container using grid-rows transition */}
                 <div className="grid grid-rows-[1fr] lg:grid-rows-[0fr] lg:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-in-out">
                     <div className="overflow-hidden">
-                        <div className="pt-3 lg:pt-4 flex flex-wrap items-center justify-start gap-3 lg:gap-4 font-sans text-[16px] leading-[24px] tracking-[-0.32px] font-normal text-[#f9f6f3]/90">
+                        <div className="pt-3 lg:pt-4 flex flex-wrap items-center justify-start gap-3 lg:gap-4 font-sans text-[16px] leading-[24px] tracking-[-0.32px] font-normal text-white/90">
                             <span>{apt.price}</span>
                             <span className="w-1 h-1 rounded-full bg-[#f9f6f3]/50 hidden sm:block" />
                             <span>{apt.guests}</span>
                             <span className="w-1 h-1 rounded-full bg-[#f9f6f3]/50 hidden sm:block" />
-                            <RollingLink href={`/apartament/${apt.id}`} className="text-[#f9f6f3] text-[16px] border-b border-[#f9f6f3]/80 pb-[1px] hidden sm:block">
-                                Zobacz Lokal
-                            </RollingLink>
+                            <div className="flex items-center gap-1 text-white text-[16px] border-b border-white/80 pb-[1px] hidden sm:flex group-hover:border-primary transition-colors">
+                                <span>Zobacz Lokal</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,36 +122,69 @@ function MobileSlider({ apartments }: { apartments: Apartment[] }) {
 }
 
 export function Collection() {
+    const containerRef = useRef<HTMLDivElement>(null)
+    
+    // Track scroll for each row to apply exit animations to previous rows
+    const row2Ref = useRef<HTMLDivElement>(null)
+    const row3Ref = useRef<HTMLDivElement>(null)
+
+    const { scrollYProgress: row2Progress } = useScroll({
+        target: row2Ref,
+        offset: ["start end", "start start"]
+    })
+
+    const { scrollYProgress: row3Progress } = useScroll({
+        target: row3Ref,
+        offset: ["start end", "start start"]
+    })
+
+    // Exit transforms for Row 1 (when Row 2 comes in)
+    const row1Scale = useTransform(row2Progress, [0, 1], [1, 0.92])
+    const row1Opacity = useTransform(row2Progress, [0, 1], [1, 0])
+    const row1Filter = useTransform(row2Progress, [0, 1], ["brightness(1)", "brightness(0.5)"])
+
+    // Exit transforms for Row 2 (when Row 3 comes in)
+    const row2Scale = useTransform(row3Progress, [0, 1], [1, 0.94])
+    const row2Opacity = useTransform(row3Progress, [0, 1], [1, 0])
+    const row2Filter = useTransform(row3Progress, [0, 1], ["brightness(1)", "brightness(0.7)"])
+
     return (
-        <>
+        <div ref={containerRef}>
             {/* ════════════════════════════════════════════
                 SECTION HEADER
             ════════════════════════════════════════════ */}
-            <section id="apartamenty" className="bg-background pt-16 lg:pt-32 relative z-0">
-                <div className="flex flex-col lg:flex-row justify-between lg:items-end gap-12 max-w-[1440px] mx-auto px-6 md:px-12">
-                    <div className="max-w-2xl">
-                        <div className="mb-6">
-                            <span className="eye-brow !text-left">Kolekcja</span>
-                        </div>
-                        <motion.h2
+            <section id="apartamenty" className="bg-background pt-12 relative z-0">
+                <div className="flex flex-col lg:flex-row justify-between lg:items-end gap-6 max-w-[1440px] mx-auto px-6 md:px-12">
+                    <div className="max-w-2xl text-left">
+                        <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.6 }}
-                            className="section-heading leading-[1.1] mb-12 lg:mb-0"
+                            viewport={{ once: true, margin: "-120px" }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                            className="mb-6 text-left"
+                        >
+                            <span className="eye-brow !text-left">Kolekcja</span>
+                        </motion.div>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 30, filter: "blur(5px)" }}
+                            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            viewport={{ once: true, margin: "-150px" }}
+                            transition={{ duration: 1.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            className="section-heading leading-[1.1] mb-12 lg:mb-0 dark:text-foreground"
                         >
                             Wybierz swój <br />idealny azyl
                         </motion.h2>
                     </div>
 
+                    {/* ── Focused Review Display ── */}
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2, duration: 0.8 }}
-                        className="flex flex-col gap-6 max-w-sm mb-6 lg:mb-12"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ delay: 0.7, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col gap-6 max-w-sm mb-0 lg:mb-0"
                     >
-                        <p className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-center text-foreground/60">
+                        <p className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] lg:text-left text-foreground/60">
                             Przeglądaj naszą kolekcję apartamentów stworzonych dla Twojego komfortu i spokoju.
                         </p>
                     </motion.div>
@@ -162,37 +197,51 @@ export function Collection() {
             <MobileSlider apartments={apartments} />
 
             {/* ════════════════════════════════════════════
-                DESKTOP: Grid (1 + 2 + 2)
+                DESKTOP: Sticky Stacking Grid (1 + 2 + 2)
             ════════════════════════════════════════════ */}
-            <section className="hidden lg:block bg-background pb-32 pt-16">
-                <div className="flex flex-col gap-6 max-w-[1440px] mx-auto px-12">
-                    {/* Top element: full width (Apt 1) */}
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8 }}
-                        className="w-full"
-                    >
-                        <ApartmentCard apt={apartments[0]} isFullWidth={true} />
-                    </motion.div>
+            <section className="hidden lg:block relative w-full mb-20 z-10">
+                <div className="relative w-full max-w-[1440px] mx-auto px-12">
                     
-                    {/* Next rows: 2 per row */}
-                    <div className="grid grid-cols-2 gap-6 w-full">
-                        {apartments.slice(1).map((apt, idx) => (
-                            <motion.div
-                                key={apt.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.8, delay: idx * 0.1 }}
-                            >
-                                <ApartmentCard apt={apt} />
-                            </motion.div>
-                        ))}
+                    {/* Row 1 / Sticky Container */}
+                    <div className="sticky top-28 z-10 w-full h-[85vh] flex flex-col justify-start pt-4 pointer-events-none">
+                        <motion.div 
+                            style={{ scale: row1Scale, opacity: row1Opacity, filter: row1Filter }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.8 }}
+                            className="w-full origin-bottom pointer-events-auto"
+                        >
+                            <ApartmentCard apt={apartments[0]} isFullWidth={true} />
+                        </motion.div>
+                    </div>
+                    
+                    {/* Skok Scrolla */}
+                    <div ref={row2Ref} className="h-[60vh] w-full" />
+
+                    {/* Row 2 / Sticky Container */}
+                    <div className="sticky top-28 z-20 w-full h-[85vh] flex flex-col justify-start pt-4 pointer-events-none">
+                        <motion.div 
+                            style={{ scale: row2Scale, opacity: row2Opacity, filter: row2Filter }}
+                            className="grid grid-cols-2 gap-6 w-full origin-bottom pointer-events-auto"
+                        >
+                            <ApartmentCard apt={apartments[1]} />
+                            <ApartmentCard apt={apartments[2]} />
+                        </motion.div>
+                    </div>
+
+                    {/* Skok Scrolla */}
+                    <div ref={row3Ref} className="h-[60vh] w-full" />
+
+                    {/* Row 3 / Sticky Container */}
+                    <div className="sticky top-28 z-30 w-full h-[85vh] flex flex-col justify-start pt-4 pointer-events-none">
+                        <div className="grid grid-cols-2 gap-6 w-full pointer-events-auto">
+                            <ApartmentCard apt={apartments[3]} />
+                            <ApartmentCard apt={apartments[4]} />
+                        </div>
                     </div>
                 </div>
             </section>
-        </>
+        </div>
     )
 }

@@ -35,9 +35,9 @@ export function Amenities() {
                         className="w-full h-full object-cover object-center"
                         loading="lazy"
                     />
-                    {/* Subtle overlay + corner label */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-                    <div className="absolute top-5 left-5 bg-background px-3 py-2 border border-foreground/8">
+                    {/* Gradient Overlay for text readability */}
+                    <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
+                    <div className="absolute top-5 left-5 bg-background dark:bg-zinc-900 px-3 py-2 border border-foreground/10 transition-colors">
                         <span className="text-[9px] font-semibold tracking-[0.2em] uppercase text-foreground">
                             STANDARD HOTELOWY
                         </span>
@@ -73,8 +73,8 @@ export function Amenities() {
                                 transition={{ duration: 0.4, delay: idx * 0.04 }}
                                 className="flex items-center justify-between px-5 md:px-8 py-5 border-b border-foreground/5 group hover:bg-foreground/3 transition-colors"
                             >
-                                <div className="flex items-center gap-5">
-                                    <span className="text-[9px] font-semibold tracking-[0.2em] text-foreground/30 w-5 shrink-0">
+                                <div className="pt-3 lg:pt-4 flex flex-wrap items-center justify-start gap-3 lg:gap-4 font-sans text-[16px] leading-[24px] tracking-[-0.32px] font-normal text-white/90">
+                                    <span className="text-[9px] font-semibold tracking-[0.2em] text-foreground/30 w-5 shrink-0 transition-colors">
                                         {item.num}
                                     </span>
                                     <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-foreground">

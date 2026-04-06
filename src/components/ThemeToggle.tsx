@@ -17,7 +17,7 @@ export function ThemeToggle({ isOverHero = false }: { isOverHero?: boolean }) {
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             className={`p-2 flex items-center justify-center rounded-full border transition-colors duration-300
                 ${isOverHero 
-                    ? "border-[#f9f6f3]/20 text-[#f9f6f3] hover:bg-[#f9f6f3] hover:text-[#1f3a40]" 
+                    ? "border-white/20 text-white hover:bg-white hover:text-black" 
                     : "border-foreground/20 text-foreground hover:bg-foreground hover:text-background"
                 }`}
             aria-label="Toggle theme"

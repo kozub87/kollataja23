@@ -44,13 +44,13 @@ function AccordionItem({ item, isOpen, onClick }: { item: { question: string, an
             <AnimatePresence initial={false}>
                 {isOpen && (
                     <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="overflow-hidden"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.6, duration: 0.8 }}
+                        className="flex flex-col gap-4 max-w-sm"
                     >
-                        <p className="pb-8 pt-2 text-[15px] leading-relaxed text-foreground/60 pr-12 text-balance">
+                        <p className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-foreground/60 transition-colors">
                             {item.answer}
                         </p>
                     </motion.div>
@@ -68,32 +68,38 @@ export function FAQ() {
     }
 
     return (
-        <section id="faq" className="bg-[#f9f6f3] py-24 lg:py-40">
+        <section id="faq" className="bg-background py-24 lg:py-40 transition-colors duration-500">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                 
                 <div className="grid lg:grid-cols-12 gap-16 lg:gap-24">
                     
                     {/* ── Left Column: Headers ── */}
                     <div className="lg:col-span-4 flex flex-col">
-                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] mb-8 font-normal lg:text-left text-center block">
+                        <motion.span 
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-120px" }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                            className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] !text-primary dark:text-foreground/60 mb-8 font-normal lg:text-left text-center block transition-colors"
+                        >
                             FAQ
-                        </span>
+                        </motion.span>
                         
                         <motion.h2
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="font-serif text-4xl lg:text-[56px] leading-[1.1] tracking-tight text-[#1f3a40] mb-8"
+                            initial={{ opacity: 0, y: 25, filter: "blur(5px)" }}
+                            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            viewport={{ once: true, margin: "-120px" }}
+                            transition={{ duration: 1.4, delay: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }}
+                            className="font-serif text-4xl lg:text-[56px] leading-[1.1] tracking-tight text-foreground mb-8 transition-colors"
                         >
                             Często<br />Zadawane<br />Pytania
                         </motion.h2>
 
                         <motion.p
-                            initial={{ opacity: 0, y: 15 }}
+                            initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
+                            viewport={{ once: true, margin: "-120px" }}
+                            transition={{ duration: 1, delay: 0.6 }}
                             className="text-[15px] leading-relaxed text-foreground/60 max-w-sm text-balance"
                         >
                             Wszystko, co musisz wiedzieć dla bezproblemowego pobytu, od procesu check-in po zasady parkingu.
@@ -101,7 +107,13 @@ export function FAQ() {
                     </div>
 
                     {/* ── Right Column: Accordion ── */}
-                    <div className="lg:col-span-8 flex flex-col border-t border-foreground/15">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 1, delay: 0.8 }}
+                        className="lg:col-span-8 flex flex-col border-t border-foreground/15"
+                    >
                         {faqs.map((faq, index) => (
                             <AccordionItem
                                 key={index}
@@ -110,7 +122,7 @@ export function FAQ() {
                                 onClick={() => toggleItem(index)}
                             />
                         ))}
-                    </div>
+                    </motion.div>
 
                 </div>
 

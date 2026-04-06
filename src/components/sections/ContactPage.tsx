@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Mail, Phone, MapPin, ChevronRight } from "lucide-react"
+import { Mail, Phone, MapPin, Plus, Minus } from "lucide-react"
 import { LeafletMap } from "@/components/ui/LeafletMap"
 import { Navbar } from "@/components/ui/Navbar"
 import { Footer } from "@/components/sections/Footer"
@@ -34,17 +34,18 @@ const faqItems = [
 function FaqAccordionItem({ q, a, idx }: { q: string; a: string; idx: number }) {
     const [open, setOpen] = useState(false)
     return (
-        <div className="border-b border-[#1f3a40]/10 last:border-b-0">
+        <div className="border-b border-[#1f3a40]/15 last:border-b-0">
             <button
                 onClick={() => setOpen(!open)}
-                className="w-full flex items-center justify-between py-8 text-left group"
+                className="w-full flex items-center justify-between py-6 text-left group"
+                aria-expanded={open}
             >
-                <h4 className="font-serif text-xl md:text-2xl text-[#1f3a40] tracking-tight group-hover:opacity-60 transition-opacity">
+                <span className="text-[17px] md:text-[19px] font-sans font-medium text-foreground tracking-[-0.01em] pr-8 group-hover:text-foreground/80 transition-colors">
                     {q}
-                </h4>
-                <div className={`w-8 h-8 rounded-full border border-[#1f3a40]/10 flex items-center justify-center shrink-0 transition-transform duration-500 ${open ? "rotate-90 bg-[#1f3a40] text-[#f9f6f3]" : ""}`}>
-                    <ChevronRight className="w-4 h-4" />
-                </div>
+                </span>
+                <span className="text-foreground/50 transition-colors group-hover:text-foreground shrink-0">
+                    {open ? <Minus className="w-5 h-5 stroke-[1.5]" /> : <Plus className="w-5 h-5 stroke-[1.5]" />}
+                </span>
             </button>
             <AnimatePresence initial={false}>
                 {open && (
@@ -83,7 +84,7 @@ export function ContactPage() {
     }
 
     return (
-        <main className="min-h-screen bg-[#f9f6f3] text-foreground font-sans antialiased selection:bg-[#a1826a]/10">
+        <main className="min-h-screen bg-background text-foreground font-sans antialiased transition-colors duration-500 selection:bg-primary/10">
 
             {/* ── 1. Navbar ── */}
             <Navbar variant="subpage" activePath="/kontakt" />
@@ -91,14 +92,14 @@ export function ContactPage() {
             {/* ── 2. Hero Section ── */}
             <section className="pt-48 pb-24 px-6 md:px-12 max-w-[1440px] mx-auto text-center">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    initial={{ opacity: 0, y: 30, filter: "blur(5px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#a1826a] font-normal mb-6 block">
+                    <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary transitions-colors">
                         Kontakt
                     </span>
-                    <h1 className="font-serif text-5xl md:text-7xl lg:text-[88px] text-[#1f3a40] leading-[1.1] mb-8 tracking-tighter">
+                    <h1 className="font-serif text-5xl md:text-7xl lg:text-[88px] text-foreground leading-[1.1] mb-8 tracking-tighter">
                         Bądźmy w kontakcie.
                     </h1>
                     <p className="font-sans text-[16px] md:text-[18px] text-foreground/60 max-w-2xl mx-auto text-balance">
@@ -127,17 +128,17 @@ export function ContactPage() {
                                 { icon: MapPin, label: "Odwiedź nas", value: "ul. Kołłątaja 23, 50-007 Wrocław", href: "https://maps.google.com/?q=Kołłątaja+23,+Wrocław" },
                             ].map((item, idx) => (
                                 <div key={idx} className="flex gap-6 group">
-                                    <div className="w-12 h-12 rounded-full border border-[#1f3a40]/10 flex items-center justify-center shrink-0 group-hover:bg-[#1f3a40] group-hover:text-[#f9f6f3] transition-all duration-300">
+                                    <div className="w-12 h-12 rounded-full border border-foreground/10 flex items-center justify-center shrink-0 group-hover:bg-foreground group-hover:text-background transition-all duration-300">
                                         <item.icon className="w-5 h-5" />
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">
+                                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary dark:text-foreground/60 font-normal transition-colors">
                                             {item.label}
                                         </span>
                                         <a 
                                             href={item.href} 
                                             target={item.href?.startsWith("http") ? "_blank" : undefined}
-                                            className="font-serif text-xl text-[#1f3a40] hover:text-[#a1826a] transition-colors leading-tight"
+                                            className="font-serif text-xl text-foreground hover:text-primary transition-colors leading-tight"
                                         >
                                             {item.value}
                                         </a>
@@ -147,14 +148,14 @@ export function ContactPage() {
                         </div>
 
                         {/* Partner Logos */}
-                        <div className="flex flex-col gap-6 pt-10 border-t border-[#1f3a40]/10">
-                            <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Nasze platformy</span>
+                        <div className="flex flex-col gap-6 pt-10 border-t border-foreground/10">
+                            <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary dark:text-foreground/60 font-normal transition-colors">Nasze platformy</span>
                             <div className="flex gap-8 items-center">
                                 <a href="https://booking.com" target="_blank" rel="noopener noreferrer" className="h-6 opacity-70 hover:opacity-100 transition-opacity">
-                                    <img src="/Loga/booking.svg" alt="Booking.com" className="h-full w-auto mix-blend-multiply opacity-60" />
+                                    <img src="/Loga/booking.svg" alt="Booking.com" className="h-full w-auto mix-blend-multiply opacity-60 dark:invert dark:mix-blend-normal" />
                                 </a>
                                 <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="h-6 opacity-70 hover:opacity-100 transition-opacity">
-                                    <img src="/Loga/airbnb.svg" alt="Airbnb" className="h-full w-auto mix-blend-multiply opacity-60" />
+                                    <img src="/Loga/airbnb.svg" alt="Airbnb" className="h-full w-auto mix-blend-multiply opacity-60 dark:invert dark:mix-blend-normal" />
                                 </a>
                             </div>
                         </div>
@@ -166,7 +167,7 @@ export function ContactPage() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="lg:col-span-8 bg-white p-8 md:p-16 rounded-[4px] shadow-sm border border-[#1f3a40]/5"
+                        className="lg:col-span-8 bg-white dark:bg-white/5 p-8 md:p-16 rounded-[4px] shadow-sm border border-foreground/5"
                     >
                         {submitted ? (
                             <motion.div 
@@ -174,37 +175,37 @@ export function ContactPage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="h-full flex flex-col items-center justify-center text-center py-20"
                             >
-                                <div className="w-20 h-20 bg-[#1f3a40] text-[#f9f6f3] rounded-full flex items-center justify-center mb-8">
-                                    <ChevronRight className="w-10 h-10 rotate-[-90deg]" />
+                                <div className="w-20 h-20 bg-foreground text-background rounded-full flex items-center justify-center mb-8">
+                                    <Plus className="w-10 h-10 rotate-45" />
                                 </div>
-                                <h3 className="font-serif text-4xl text-[#1f3a40] mb-4">Wiadomość wysłana.</h3>
+                                <h3 className="font-serif text-4xl text-foreground mb-4">Wiadomość wysłana.</h3>
                                 <p className="font-sans text-foreground/60">Dziękujemy! Skontaktujemy się z Tobą najszybciej jak to możliwe.</p>
                             </motion.div>
                         ) : (
                             <form onSubmit={handleSubmit} className="flex flex-col gap-10">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div className="flex flex-col gap-3">
-                                        <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Imię i nazwisko</label>
+                                        <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary dark:text-foreground/80 font-normal transition-colors">Imię i nazwisko</label>
                                         <input 
                                             required name="name" value={form.name} onChange={handleChange}
-                                            className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors"
+                                            className="w-full bg-background border-foreground/10 text-foreground p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-all text-foreground placeholder:text-foreground/40"
                                             placeholder="Jan Kowalski"
                                         />
                                     </div>
                                     <div className="flex flex-col gap-3">
-                                        <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Email</label>
+                                        <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary dark:text-foreground/80 font-normal transition-colors">Email</label>
                                         <input 
                                             required type="email" name="email" value={form.email} onChange={handleChange}
-                                            className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors"
+                                            className="w-full bg-background border-foreground/10 text-foreground p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-all text-foreground placeholder:text-foreground/40"
                                             placeholder="jan@kowalski.pl"
                                         />
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-3">
-                                    <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Temat rozmowy</label>
+                                    <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary dark:text-foreground/80 font-normal transition-colors">Temat rozmowy</label>
                                     <select 
                                         name="apartment" value={form.apartment} onChange={handleChange}
-                                        className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors cursor-pointer appearance-none"
+                                        className="w-full bg-background border-foreground/10 text-foreground p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-all cursor-pointer appearance-none text-foreground"
                                     >
                                         <option>Wybieram...</option>
                                         <option>Apartament 1 — Studio</option>
@@ -215,17 +216,17 @@ export function ContactPage() {
                                     </select>
                                 </div>
                                 <div className="flex flex-col gap-3">
-                                    <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">Wiadomość</label>
+                                    <label className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary dark:text-foreground/80 font-normal transition-colors">Wiadomość</label>
                                     <textarea 
                                         required name="message" value={form.message} onChange={handleChange}
                                         rows={6}
-                                        className="w-full bg-[#fcfaf7] border border-[#1f3a40]/10 p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-colors resize-none"
+                                        className="w-full bg-background border-foreground/10 text-foreground p-5 rounded-[4px] font-sans text-[16px] focus:border-[#a1826a] outline-none transition-all resize-none text-foreground placeholder:text-foreground/40"
                                         placeholder="Jak możemy Ci pomóc?"
                                     />
                                 </div>
                                 <button 
                                     type="submit"
-                                    className="w-full py-5 bg-[#1f3a40] text-[#f9f6f3] font-sans text-[11px] font-semibold tracking-[0.2em] uppercase rounded-[4px] hover:bg-[#a1826a] transition-all duration-300"
+                                    className="w-full py-5 bg-foreground text-background font-sans text-[11px] font-semibold tracking-[0.2em] uppercase rounded-[4px] hover:bg-primary hover:text-white transition-all duration-300"
                                 >
                                     Wyślij Wiadomość
                                 </button>
@@ -236,16 +237,16 @@ export function ContactPage() {
             </section>
 
             {/* ── 4. Map Section ── */}
-            <section className="w-full h-[500px] border-y border-[#1f3a40]/5">
+            <section className="w-full h-[500px] border-y border-foreground/5">
                 <LeafletMap />
             </section>
 
             {/* ── 5. FAQ Section ── */}
             <section className="py-32 lg:py-48 px-6 md:px-12 max-w-[1440px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
-                    <div className="lg:w-1/3">
-                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#a1826a] font-normal mb-6 block">FAQ</span>
-                        <h2 className="font-serif text-4xl md:text-5xl text-[#1f3a40] leading-tight tracking-tight">Często zadawane pytania.</h2>
+                    <div className="lg:w-1/3 flex flex-col items-start">
+                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] !text-primary transitions-colors mb-6">FAQ</span>
+                        <h2 className="section-heading leading-tight tracking-tight">Często zadawane pytania</h2>
                     </div>
                     <div className="lg:w-2/3 flex flex-col">
                         {faqItems.map((item, idx) => (

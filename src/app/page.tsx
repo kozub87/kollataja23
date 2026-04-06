@@ -4,7 +4,6 @@ import { Collection } from "@/components/sections/Collection"
 import { Location } from "@/components/sections/Location"
 import { Reviews } from "@/components/sections/Reviews"
 import { FAQ } from "@/components/sections/FAQ"
-import { CTA } from "@/components/sections/CTA"
 import { WelcomeSection } from "@/components/sections/WelcomeSection"
 import { GallerySection } from "@/components/sections/GallerySection"
 import { SectionSeparator } from "@/components/ui/SectionSeparator"
@@ -17,7 +16,9 @@ export default function Home() {
       <div className="w-full flex flex-col">
         <Hero />
         <div className="relative z-10 bg-background w-full flex flex-col">
-          <WelcomeSection />
+          <div className="flex flex-col items-center justify-center w-full">
+            <WelcomeSection />
+          </div>
           <SectionSeparator />
           <GallerySection />
           <SectionSeparator />
@@ -26,11 +27,7 @@ export default function Home() {
           <Location />
           <SectionSeparator />
           <Reviews />
-          <SectionSeparator />
           <FAQ />
-          <SectionSeparator />
-          <CTA />
-          <SectionSeparator />
           <Footer />
         </div>
       </div>

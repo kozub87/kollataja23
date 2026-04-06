@@ -8,6 +8,7 @@ interface WeatherData {
     current_condition: Array<{
         temp_C: string
         weatherDesc: Array<{ value: string }>
+        lang_pl?: Array<{ value: string }>
         weatherCode: string
         windspeedKmph: string
     }>
@@ -20,7 +21,7 @@ export function WeatherWidget() {
     React.useEffect(() => {
         async function fetchWeather() {
             try {
-                const response = await fetch("https://wttr.in/Wroclaw?format=j1")
+                const response = await fetch("https://wttr.in/Wroclaw?format=j1&lang=pl")
                 if (!response.ok) throw new Error("Weather fetch failed")
                 const data = await response.json()
                 setWeather(data)
@@ -46,12 +47,15 @@ export function WeatherWidget() {
 
     const current = weather.current_condition[0]
     const code = parseInt(current.weatherCode)
-    const description = current.weatherDesc[0]?.value || "Clear"
+    const temp = parseInt(current.temp_C)
+    // Używamy lang=pl w API, więc bierzemy polski opis jeśli dostępny
+    const description = current.lang_pl?.[0]?.value || current.weatherDesc[0]?.value || "Słonecznie"
 
     const isSunny = code === 113
     const isCloudy = [116, 119, 122].includes(code)
-    const isRainy = code >= 176 && code < 315 && !isCloudy
-    const isSnow = code >= 317 || code === 179 || code === 227
+    const isRainy = (code >= 176 && code < 315) || [353, 356, 359, 386, 389].includes(code)
+    // Bezpiecznik: Śnieg tylko gdy faktycznie zimno (< 1°C)
+    const isSnow = (code >= 317 || code === 179 || code === 227) && temp < 1
 
     const subLabelStyle = "text-[8px] uppercase tracking-[0.2em] text-[#f9f6f3]/40 font-medium font-sans leading-none"
     const iconStyle = "text-[#f9f6f3]/80 group-hover:text-[#f9f6f3] transition-colors duration-500"

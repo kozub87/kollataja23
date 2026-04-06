@@ -51,28 +51,32 @@ export function Reviews() {
     }
 
     return (
-        <section id="opinie" className="bg-background py-24 lg:py-40 overflow-hidden">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col items-center">
+        <section id="opinie" className="min-h-[100dvh] py-20 lg:py-0 w-full bg-background overflow-x-hidden overflow-y-clip flex items-center justify-center">
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col items-center w-full">
                 
                 {/* ── Header Ratings ── */}
                 <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="flex flex-col sm:flex-row items-center gap-12 sm:gap-16 mb-24 lg:mb-32"
+                    viewport={{ once: true, margin: "-120px" }}
+                    transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-col sm:flex-row items-center gap-6 sm:gap-16 mb-12 lg:mb-32"
                 >
-                    <div className="flex items-center gap-5">
-                        <img src="/Loga/booking.svg" alt="Booking.com" className="h-6 lg:h-8 object-contain opacity-60 dark:invert" />
-                        <div className="flex flex-col border-l border-foreground/15 pl-5">
+                    <div className="flex items-center w-fit">
+                        <div className="w-[120px] lg:w-[140px] flex justify-end pr-5">
+                            <img src="/Loga/booking.svg" alt="Booking.com" className="h-6 lg:h-8 object-contain opacity-60 dark:invert" />
+                        </div>
+                        <div className="flex flex-col border-l border-foreground/15 pl-5 text-left w-[120px] lg:w-[150px]">
                             <span className="font-serif text-2xl lg:text-3xl text-foreground leading-none mb-1">9.8<span className="text-sm text-foreground/50 font-sans">/10</span></span>
                             <span className="text-[9px] uppercase tracking-[0.2em] text-foreground/40 font-semibold">Znakomity</span>
                         </div>
                     </div>
-                    {/* <div className="w-px h-10 bg-foreground/10 hidden sm:block"></div> */}
-                    <div className="flex items-center gap-5">
-                        <img src="/Loga/airbnb.svg" alt="Airbnb" className="h-6 lg:h-8 object-contain opacity-60 dark:invert" />
-                        <div className="flex flex-col border-l border-foreground/15 pl-5">
+                    
+                    <div className="flex items-center w-fit">
+                        <div className="w-[120px] lg:w-[140px] flex justify-end pr-5">
+                            <img src="/Loga/airbnb.svg" alt="Airbnb" className="h-6 lg:h-8 object-contain opacity-60 dark:invert" />
+                        </div>
+                        <div className="flex flex-col border-l border-foreground/15 pl-5 text-left w-[120px] lg:w-[150px]">
                             <span className="font-serif text-2xl lg:text-3xl text-foreground leading-none mb-1">4.96<span className="text-sm text-foreground/50 font-sans">/5</span></span>
                             <span className="text-[9px] uppercase tracking-[0.2em] text-foreground/40 font-semibold">Superhost</span>
                         </div>
@@ -80,7 +84,13 @@ export function Reviews() {
                 </motion.div>
 
                 {/* ── Focused Review Display ── */}
-                <div className="w-full max-w-4xl flex flex-col items-center text-center min-h-[500px] sm:min-h-[400px] justify-center">
+                <motion.div 
+                    initial={{ opacity: 0, y: 35, filter: "blur(8px)" }}
+                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    viewport={{ once: true, margin: "-150px" }}
+                    transition={{ duration: 1.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full max-w-4xl flex flex-col items-center text-center min-h-[500px] sm:min-h-[400px] justify-center"
+                >
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={currentIndex}
@@ -88,7 +98,7 @@ export function Reviews() {
                             animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                             exit={{ opacity: 0, x: -20, filter: "blur(4px)" }}
                             transition={{ duration: 0.4, ease: "easeInOut" }}
-                            className="flex flex-col items-center w-full"
+                            className="flex flex-col items-center w-full px-2 md:px-0"
                         >
                             {/* Logo */}
                             {reviews[currentIndex].logo ? (
@@ -104,7 +114,7 @@ export function Reviews() {
                             )}
 
                             {/* Big Headline */}
-                            <h3 className="font-serif text-4xl md:text-5xl lg:text-[64px] leading-[1.1] text-[#1f3a40] mb-10 tracking-tight text-balance max-w-3xl">
+                            <h3 className="font-serif text-[28px] sm:text-4xl md:text-5xl lg:text-[64px] leading-[1.1] text-foreground dark:text-foreground mb-10 tracking-tight text-balance max-w-3xl transition-colors">
                                 "{reviews[currentIndex].headline}"
                             </h3>
 
@@ -123,30 +133,36 @@ export function Reviews() {
                             </p>
 
                             {/* Author */}
-                            <span className="text-[14px] font-sans text-foreground/90">
+                            <span className="text-[14px] font-sans !text-primary">
                                 {reviews[currentIndex].author}, {reviews[currentIndex].city}
                             </span>
                         </motion.div>
                     </AnimatePresence>
-                </div>
+                </motion.div>
 
                 {/* ── Controls ── */}
-                <div className="flex items-center gap-4 mt-8">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.4, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex items-center gap-4 mt-8"
+                >
                     <button 
                         onClick={prevReview}
-                        className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-colors"
+                        className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-primary hover:border-primary/40 transition-colors"
                         aria-label="Previous review"
                     >
                         <ArrowLeft className="w-5 h-5 stroke-[1.2]" />
                     </button>
                     <button 
                         onClick={nextReview}
-                        className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-foreground hover:border-foreground/40 transition-colors"
+                        className="w-[46px] h-[46px] rounded-full border border-foreground/20 flex items-center justify-center text-foreground/50 hover:text-primary hover:border-primary/40 transition-colors"
                         aria-label="Next review"
                     >
                         <ArrowRight className="w-5 h-5 stroke-[1.2]" />
                     </button>
-                </div>
+                </motion.div>
 
             </div>
         </section>

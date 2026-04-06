@@ -28,34 +28,40 @@ const attractions = [
 
 export function Location() {
     return (
-        <section id="lokalizacja" className="bg-background py-24 lg:py-40 overflow-hidden">
+        <section id="lokalizacja" className="bg-background py-12 overflow-hidden">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
                 
                 {/* ── Section Header ── */}
                 <div className="flex flex-col lg:flex-row justify-between lg:items-end gap-12 mb-16 lg:mb-24">
                     <div className="max-w-2xl">
-                        <div className="mb-6">
-                            <span className="eye-brow !text-left">Lokalizacja</span>
-                        </div>
-                        <motion.h2
+                        <motion.div 
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.6 }}
-                            className="section-heading leading-[1.1]"
+                            viewport={{ once: true, margin: "-120px" }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                            className="mb-6"
+                        >
+                            <span className="eye-brow !text-left !text-primary">Lokalizacja</span>
+                        </motion.div>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 30, filter: "blur(5px)" }}
+                            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            viewport={{ once: true, margin: "-120px" }}
+                            transition={{ duration: 1.4, delay: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }}
+                            className="section-heading leading-[1.1] dark:text-foreground"
                         >
                             Serce<br />Wrocławia
                         </motion.h2>
                     </div>
 
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2, duration: 0.8 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
                         className="flex flex-col gap-6 max-w-sm"
                     >
-                        <p className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-foreground/60">
+                        <p className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-foreground/60 transition-colors">
                             Ul. Kołłątaja 23 to jeden z najbardziej pożądanych adresów w centrum Wrocławia —
                             w zasięgu krótkiego spaceru od najważniejszych punktów miasta.
                         </p>
@@ -64,7 +70,7 @@ export function Location() {
                                  href="https://maps.google.com/?q=Kołłątaja+23,+Wrocław"
                                  target="_blank"
                                  rel="noopener noreferrer"
-                                 className="font-sans text-[16px] leading-[18px] text-[#a1826a] font-normal border-b border-[#a1826a] w-max pb-0.5 hover:opacity-50 transition-opacity"
+                                 className="font-sans text-[16px] leading-[18px] text-primary font-normal border-b border-primary w-max pb-0.5 hover:opacity-50 transition-all"
                              >
                                  Sprawdź nas na mapie →
                              </a>
@@ -73,7 +79,7 @@ export function Location() {
                 </div>
 
                 {/* ── Bento Grid Discovery ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 auto-rows-[350px] lg:auto-rows-[480px]">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
                     
                     {/* Big Map Block (2/3 width) */}
                     <motion.div 
@@ -81,7 +87,7 @@ export function Location() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="lg:col-span-2 row-span-1 lg:row-span-1 border border-foreground/10 bg-[#f4f1ee] relative overflow-hidden group shadow-premium"
+                        className="lg:col-span-2 h-[350px] lg:h-[480px] border border-foreground/10 bg-foreground/[0.03] relative overflow-hidden group shadow-premium transition-colors"
                     >
                         <LeafletMap />
                         <div className="absolute bottom-6 left-6 z-10 bg-background/90 backdrop-blur-sm px-4 py-2 border border-foreground/15 shadow-xl pointer-events-none">
@@ -97,7 +103,7 @@ export function Location() {
                          whileInView={{ opacity: 1, x: 0 }}
                          viewport={{ once: true }}
                          transition={{ duration: 0.8, delay: 0.2 }}
-                         className="lg:col-span-1 relative overflow-hidden border border-foreground/10 group bg-[#f4f1ee]"
+                         className="lg:col-span-1 h-[350px] lg:h-[480px] relative overflow-hidden border border-foreground/10 group bg-foreground/[0.03] transition-colors"
                     >
                         <div 
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-[4000ms] ease-out group-hover:scale-110"
@@ -107,7 +113,7 @@ export function Location() {
                     </motion.div>
 
                     {/* Distance Tiles Row (Span 3 cols) */}
-                    <div className="lg:col-span-3 grid grid-cols-2 lg:grid-cols-4 gap-6 min-h-[300px]">
+                    <div className="lg:col-span-3 grid grid-cols-2 lg:grid-cols-4 gap-6">
                         {distances.map((item, idx) => (
                             <motion.div
                                 key={item.label}
@@ -123,7 +129,7 @@ export function Location() {
                                     style={{ backgroundImage: `url('${item.image}')` }}
                                 />
                                 {/* Bottom Subtle Overlay for readability */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#1f3a40]/90 via-[#1f3a40]/30 to-transparent z-[1]" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/90 via-[#0D0D0D]/30 to-transparent z-[1] transition-colors" />
 
                                 <div className="relative z-10">
                                     <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] font-normal text-[#f9f6f3]">
@@ -145,13 +151,9 @@ export function Location() {
                 </div>
 
                 {/* ── Neighborhood Tags (Ticker) ── */}
-                <div className="mt-32 w-full max-w-[1440px] mx-auto relative overflow-hidden">
-                    {/* Fade Out Gradients */}
-                    <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none" />
-                    <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
-
-                    <div className="flex flex-col items-center mb-16">
-                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-center text-[#0f677d]">
+                <div className="mt-16 w-full max-w-[1440px] mx-auto relative overflow-hidden">
+                    <div className="flex flex-col items-center mb-6">
+                        <span className="font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-center !text-primary transition-colors">
                             Atrakcje w okolicy
                         </span>
                     </div>
@@ -169,10 +171,10 @@ export function Location() {
                                     <div key={i} className="group cursor-default py-4">
                                         <div className="relative h-12 flex flex-col items-center overflow-hidden">
                                             <div className="flex flex-col items-center transition-transform duration-500 group-hover:-translate-y-1/2">
-                                                <span className="h-12 flex items-center text-xl lg:text-3xl font-serif text-[#1f3a40]/20">
+                                                <span className="h-12 flex items-center text-xl lg:text-3xl font-serif text-foreground/20 dark:text-foreground/30 transition-colors">
                                                     {attr.name}
                                                 </span>
-                                                <span className="h-12 flex items-center font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">
+                                                <span className="h-12 flex items-center font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary font-normal transition-colors">
                                                     {attr.dist}
                                                 </span>
                                             </div>
@@ -196,10 +198,10 @@ export function Location() {
                                     <div key={i} className="group cursor-default py-4">
                                         <div className="relative h-12 flex flex-col items-center overflow-hidden">
                                             <div className="flex flex-col items-center transition-transform duration-500 group-hover:-translate-y-1/2">
-                                                <span className="h-12 flex items-center text-xl lg:text-3xl font-serif text-[#1f3a40]/20">
+                                                <span className="h-12 flex items-center text-xl lg:text-3xl font-serif text-foreground/20 dark:text-foreground/30 transition-colors">
                                                     {attr.name}
                                                 </span>
-                                                <span className="h-12 flex items-center font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-[#0f677d] font-normal">
+                                                <span className="h-12 flex items-center font-sans text-[16px] leading-[24px] tracking-[-0.32px] text-primary font-normal transition-colors">
                                                     {attr.dist}
                                                 </span>
                                             </div>

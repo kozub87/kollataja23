@@ -40,7 +40,7 @@ export function RollingLink({ href, children, className = "", onClick, target, r
                     hover: { y: 0 }
                 }}
                 transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-                className="absolute inset-0 flex items-baseline gap-inherit text-[#a1826a]"
+                className="absolute inset-0 flex items-baseline gap-inherit"
             >
                 {children}
             </motion.div>

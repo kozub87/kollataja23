@@ -23,20 +23,20 @@ export function CTA() {
             {/* Content Container (Overlay Restored) */}
             <div className="relative z-20 max-w-4xl mx-auto px-6 text-center flex flex-col items-center pt-20 pb-20">
                 <motion.h2 
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     className="font-serif text-5xl md:text-6xl lg:text-[88px] text-[#f9f6f3] mb-8 leading-[1.1] tracking-tight"
                 >
                     Skontaktuj Się
                 </motion.h2>
 
                 <motion.p
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                     className="font-sans text-[15px] md:text-[18px] text-[#f9f6f3]/80 mb-12 max-w-xl leading-relaxed text-balance"
                 >
                     Twój perfekcyjny pobyt w sercu Wrocławia to tylko jedna wiadomość. Nasz zespół jest do Twojej dyspozycji, aby przygotować w pełni spersonalizowane doświadczenie.
@@ -46,9 +46,9 @@ export function CTA() {
                     href="mailto:kontakt@kollataja23.pl"
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="bg-[#f9f6f3] text-[#1f3a40] font-sans font-semibold text-[13px] tracking-[0.1em] uppercase px-10 py-4 hover:bg-[#a1826a] hover:text-[#f9f6f3] hover:scale-105 transition-all duration-300 shadow-xl"
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="bg-background text-foreground border border-foreground/10 font-sans font-semibold text-[13px] tracking-[0.1em] uppercase px-10 py-4 hover:bg-primary hover:text-white hover:scale-105 transition-all duration-300 shadow-xl"
                 >
                     Napisz Do Nas
                 </motion.a>

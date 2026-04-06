@@ -19,26 +19,53 @@ export function WelcomeSection() {
     })
 
     return (
-        <section ref={containerRef} className="relative z-10 bg-background w-full h-[500vh]">
+        <section ref={containerRef} className="relative z-10 bg-background w-full h-[200vh] md:h-[500vh]">
             
             {/* ── Sticky Content Wrapper (The Letter) ── */}
             <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
                 
-                {/* ── Shadow Overlay (Gobo Effect) ── BOTTOM LAYER ── */}
-                <div 
-                    className="absolute inset-0 z-0 pointer-events-none opacity-[0.35] select-none contrast-150 brightness-90"
-                    style={{ 
-                        backgroundImage: "url('/shadow-blinds.png')", 
-                        backgroundSize: 'cover', 
-                        backgroundPosition: 'center',
-                        mixBlendMode: 'multiply',
-                        maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-                        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)'
-                    }} 
-                />
+                {/* ── Background Layer (Dynamic Shadow/Light) ── BOTTOM LAYER ── */}
+                <div className="absolute inset-0 z-0 select-none overflow-hidden transition-all duration-700">
+                    
+                    {/* LIGHT MODE: Static Shadow Blinds (Gobo) */}
+                    <div 
+                        className="absolute inset-0 z-0 pointer-events-none opacity-[0.35] dark:opacity-0 contrast-150 brightness-90 transition-opacity duration-700"
+                        style={{ 
+                            backgroundImage: "url('/shadow-blinds.png')", 
+                            backgroundSize: 'cover', 
+                            backgroundPosition: 'center',
+                            mixBlendMode: 'multiply',
+                            maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)'
+                        }} 
+                    />
+
+                    {/* DARK MODE: Dynamic Light Streaks (Option 3) */}
+                    <motion.div 
+                        className="absolute inset-x-0 top-0 h-full hidden dark:block opacity-30 pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 0.3 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.5 }}
+                    >
+                        <motion.div 
+                            className="absolute inset-0"
+                            animate={{ 
+                                background: [
+                                    "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 50%)",
+                                    "radial-gradient(circle at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 45%), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.03) 0%, transparent 55%)",
+                                    "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 50%)",
+                                ]
+                            }}
+                            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                        {/* Static Light Beam for Structure */}
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.05)_0%,_transparent_70%)]" />
+                    </motion.div>
+                </div>
 
                 {/* ── Gallery Layer ── MID LAYER (Restricted to 1440px) ── */}
-                <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-10">
+                <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-10 hidden md:block">
                     <div className="max-w-[1440px] mx-auto w-full h-full relative px-6 md:px-12">
                     {images.map((img, i) => {
                         const start = i * 0.18 // Shorter range for better timing
@@ -87,11 +114,16 @@ export function WelcomeSection() {
                     </div>
                 </div>
 
-                {/* ── The Letter Content ── TOP LAYER (Compressed and offset for Navbar) ── */}
-                <div className="relative z-20 max-w-[600px] mx-auto flex flex-col items-center text-center px-6 pt-24 md:pt-32">
+                {/* ── The Letter Content ── TOP LAYER (Compressed and offset for relative centering) ── */}
+                <div className="relative z-20 max-w-[600px] mx-auto flex flex-col items-center text-center px-6">
                     
                     {/* Monogram (Compressed) */}
-                    <motion.div className="mb-8 h-12 w-48 bg-foreground" 
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, margin: "-150px" }}
+                        transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                        className="mb-8 h-12 w-48 bg-foreground transition-colors" 
                         style={{ 
                             maskImage: "url('/Loga/kollataja_logo.svg')", 
                             maskRepeat: "no-repeat", 
@@ -104,15 +136,33 @@ export function WelcomeSection() {
                         }}
                     />
 
-                    <span className="eye-brow mb-4">
+                    <motion.span 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-150px" }}
+                        transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="eye-brow mb-4 !text-primary"
+                    >
                         Witaj w Kołłątaja 23
-                    </span>
+                    </motion.span>
 
-                    <h2 className="section-heading !text-center !leading-[1.1] mb-8">
-                        Miejsce, gdzie historia <br className="hidden md:block" /> spotyka spokój.
-                    </h2>
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 1.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="section-heading !text-center !leading-[1.1] mb-8 dark:text-foreground"
+                    >
+                        Miejsce, gdzie historia <br className="hidden md:block" /> spotyka spokój
+                    </motion.h2>
 
-                    <div className="flex flex-col gap-6 text-foreground/60 text-base md:text-[17px] leading-relaxed font-light tracking-wide">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col gap-6 text-foreground/60 text-base md:text-[17px] leading-relaxed font-light tracking-wide"
+                    >
                         <p>
                             Witaj w Kołłątaja 23, Twojej nowej oazie w tętniącym sercu Wrocławia. 
                             Wierzymy, że prawdziwy luksus to nie tylko piękny design, ale przede wszystkim 
@@ -124,16 +174,22 @@ export function WelcomeSection() {
                             Cieszę się, że jesteś naszym gościem — zrobimy wszystko, 
                             abyś poczuł się u nas jak w domu.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="mt-12 flex flex-col items-center">
-                        <div className="mb-1">
-                             <p className="text-[20px] font-serif text-foreground tracking-tight">Agnieszka & Piotr Rola</p>
-                        </div>
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 1.4, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                        className="mt-12 flex flex-col items-center"
+                    >
+                         <div className="mb-1">
+                              <p className="text-[20px] font-serif text-foreground tracking-tight transition-colors">Agnieszka & Piotr Rola</p>
+                         </div>
                         <p className="font-sans text-[15px] leading-[18px] font-light text-[#a1826a]">
                              Właściciele Kołłątaja 23
                          </p>
-                    </div>
+                    </motion.div>
                 </div>
 
             </div>
